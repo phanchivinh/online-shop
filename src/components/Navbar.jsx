@@ -32,12 +32,12 @@ const Navbar = () => {
           </Link>
           <ul className='hidden md:flex items-center'>
             <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>Sản phẩm</Link>
-              <ul className='z-10 absolute shadow-md shadow-black top-14 opacity-0 bg-white group-hover/item:opacity-100 group-hover/item:top-8 transition-all duration-500 group-hover/item:ease-in'>
-                <li className='text-sm min-w-[150px] p-2 hover:opacity-70 border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
-                <li className='text-sm min-w-[150px] p-2 hover:opacity-70 border-b border-gray '><Link to=''>Áo thun</Link></li>
-                <li className='text-sm min-w-[150px] p-2 hover:opacity-70 border-b border-gray '><Link to=''>Quần</Link></li>
-                <li className='text-sm min-w-[150px] p-2 hover:opacity-70 border-b border-gray '><Link to=''>Phụ kiện</Link></li>
+              <Link to='' className='font-bold text-xl hover:opacity-70'>Nam</Link>
+              <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
+                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
+                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Áo thun</Link></li>
+                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Quần</Link></li>
+                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Phụ kiện</Link></li>
               </ul>
             </li>
             <li className='group/item mx-2 relative'>
@@ -55,7 +55,7 @@ const Navbar = () => {
             <input type='text' placeholder='Tìm kiếm...' className='outline-none px-1 border-r-2 border-r-blue-300'/>
             <div className='m-2 text-2xl hover:text-blue-500 cursor-pointer'><BsSearch /></div>
           </div>
-          <div className='m-2 text-2xl hover:text-blue-500 cursor-pointer'><AiOutlineUser /></div>
+          <Link to='/login' className='m-2 text-2xl hover:text-blue-500 cursor-pointer'><AiOutlineUser /></Link>
           <div className='m-2 text-2xl relative hover:text-blue-500 cursor-pointer' onClick={() => cartRef.current.setOpenCart(true)}>
             <BsCartPlus />
             <span className='absolute top-[-10px] right-[-10px] text-sm bg-blue-600 text-white px-2 rounded-full'>0</span>
@@ -74,14 +74,14 @@ const Navbar = () => {
         <AiOutlineClose className='absolute text-2xl right-3 top-3 cursor-pointer' onClick={showSidebar} />
         {/* User */}
         <div className='mt-8 px-4 text-xl'>
-          <div className='flex items-center py-2 hover:bg-gray-200'>
+          <Link to='/login' className='flex items-center py-2 hover:bg-gray-200'>
             <BiLogIn className='mr-3'/>
             Đăng nhập
-          </div>
-          <div className='flex items-center py-2 hover:bg-gray-200'>
+          </Link>
+          <Link to='/register' className='flex items-center py-2 hover:bg-gray-200'>
             <FaUserPlus className='mr-3' />
             Đăng ký
-          </div>
+          </Link>
         </div>
         <div className='border border-b-gray-400'/>
         {/* Shop */}

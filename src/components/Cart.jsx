@@ -28,7 +28,7 @@ const Cart = ( props, cartRef ) => {
         },
     ]
   return (
-    <div className={`w-96 p-5 fixed top-0 h-screen bg-white shadow-xl overflow-y-scroll z-50 duration-300 ease-linear ${openCart ? 'right-0' : 'right-[-110%]'}`}>
+    <div className={`w-screen min-[425px]:w-96 p-5 fixed top-0 h-screen bg-white shadow-xl overflow-y-scroll z-50 duration-300 ease-linear ${openCart ? 'right-0' : 'right-[-110%]'}`}>
         <AiOutlineArrowRight className='text-xl cursor-pointer' onClick={() => setOpenCart(false)} />
         <h1 className='text-blue-300 my-4 text-2xl font-bold'>Giỏ hàng của bạn</h1>
         {data?.map((item) => (

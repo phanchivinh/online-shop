@@ -1,6 +1,6 @@
-import home1 from './home1.jpg'
-import home2 from './home2.jpg'
-import home3 from './home3.jpg'
+import home1 from './home1.png'
+import home2 from './home2.png'
+import home3 from './home3.png'
 
 import item11 from './item1-1.jpg'
 import item12 from './item1-2.jpg'

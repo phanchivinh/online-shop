@@ -7,13 +7,13 @@ const Product = () => {
   const [selectedImg, setSelectedImg] = useState(0)
 
   return (
-    <div className='flex py-5 px-12 gap-12'>
+    <div className='flex flex-col sm:flex-row py-5 px-5 md:px-12 gap-5 md:gap-12'>
       {/* Left */}
-      <div className='flex-1 flex gap-5'>
+      <div className='flex-1 flex flex-col-reverse sm:flex-row gap-3 md:gap-5'>
         {/* Item images */}
-        <div className='flex-1'>
-          <img className='w-full h-28 mb-1 object-cover cursor-pointer' src={products[0]} alt="" onClick={() => setSelectedImg(0)} />
-          <img className='w-full h-28 mb-1 object-cover cursor-pointer' src={products[1]} alt="" onClick={() => setSelectedImg(1)} />
+        <div className='flex-1 flex flex-row sm:flex-col sm:overflow-y-scroll gap-1'>
+          <img className={`w-auto sm:w-full h-28 mb-1 object-cover cursor-pointer border-black ${selectedImg === 0 ? 'border opacity-100' : 'opacity-60 border-none'}`} src={products[0]} alt="" onClick={() => setSelectedImg(0)} />
+          <img className={`w-auto sm:w-full h-28 mb-1 object-cover cursor-pointer border-black ${selectedImg === 1 ? 'border opacity-100' : 'opacity-60 border-none'}`} src={products[1]} alt="" onClick={() => setSelectedImg(1)} />
         </div>
         {/* Main image */}
         <div className='flex-[5]'>
@@ -22,10 +22,10 @@ const Product = () => {
       </div>
       {/* Right */}
       <div className='flex-1 flex flex-col'>
-        <h1 className='text-3xl font-bold'>BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - AWAY</h1>
+        <h1 className='text-2xl md:text-3xl font-bold'>BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - AWAY</h1>
         <div className='w-10 h-2 my-2 border-b-4 border-b-blue-300' />
-        <span className='text-2xl'>800.000 đ</span>
-        <p className='pt-10 pb-8 text-xl'>Describe: Áo thun cotton 100% cùng các sọc rộng với màu sắc thoải mái.</p>
+        <span className='text-xl md:text-2xl'>800.000 đ</span>
+        <p className='pt-10 pb-8 text-lg md:text-xl'>Describe: Áo thun cotton 100% cùng các sọc rộng với màu sắc thoải mái.</p>
         {/* Quantity */}
         <div className='flex gap-5 mb-4'>
           <h2 className='text-xl font-semibold'>Số lượng:</h2>

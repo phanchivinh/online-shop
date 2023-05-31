@@ -34,20 +34,20 @@ const Slider = () => {
                         src={img} 
                         alt='home' 
                         key={`home ${index}`} 
-                        className='w-screen h-full object-cover transition-all duration-500 ease-linear'
+                        className='w-screen h-[80%] object-cover transition-all duration-500 ease'
                         style={{opacity: `${currentSlide === index ? '1':'0'}`}}
                     />
                 ))}
             </div>
             {/* Icon */}
             <div 
-                className='absolute hidden sm:flex left-3 top-[50%] w-14 h-14 justify-center items-center text-6xl text-white/60 hover:text-white cursor-pointer'
+                className='absolute hidden sm:flex left-3 top-0 bottom-0 m-auto w-14 h-14 justify-center items-center text-6xl text-white/60 hover:text-white cursor-pointer'
                 onClick={prevSlide}
             >
                 <TfiAngleLeft />
             </div>
             <div 
-                className='absolute hidden sm:flex right-3 top-[50%] w-14 h-14 justify-center items-center text-6xl text-white/60 hover:text-white cursor-pointer'
+                className='absolute hidden sm:flex right-3 top-0 bottom-0 m-auto  w-14 h-14 justify-center items-center text-6xl text-white/60 hover:text-white cursor-pointer'
                 onClick={nextSlide}
             >
                 <TfiAngleRight />
