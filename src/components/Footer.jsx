@@ -26,7 +26,7 @@ const Footer = () => {
               <ul className='mt-4'>
                 <li className='text-sm sm:text-base'><p>Địa chỉ: 123 Nguyễn Hữu Thọ, Tân Phong, Quận 7, Tp.Hồ Chí Minh</p></li>
                 <li className='text-sm sm:text-base'><p>Số điện thoại: 0123456789</p></li>
-                <li className='text-sm sm:text-base'><p>Email: vtstore@gmail.com</p></li>
+                <li className='text-sm sm:text-base'><p>Email: vinhtrietshop@gmail.com</p></li>
               </ul>
               {/* Icons */}
               <div className='mt-4 flex max-[350px]:flex-wrap gap-4'>

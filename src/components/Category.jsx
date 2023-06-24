@@ -4,7 +4,10 @@ import { categoryBanners } from '../assets/image'
 
 const Category = () => {
   return (
-    <div className='py-16 sm:px-14 2xl:px-96'>
+    <div className='pt-8 pb-16 sm:px-14 2xl:px-96 bg-blue-50'>
+        <div className='flex justify-center items-center mb-12'>
+                <h2 className='text-lg sm:text-2xl font-bold'>BỘ SƯU TẬP</h2>
+        </div>
         {/* Container */}
         <div className='font-playfairDisplay flex flex-col justify-center items-center md:flex-row gap-10 '>
             {/* Women category */}
