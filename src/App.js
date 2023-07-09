@@ -11,6 +11,8 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Annoucement from "./components/Annoucement";
 
+const user = true;
+
 const Layout = () => {
   return (
     <div className="app">
@@ -24,31 +26,31 @@ const Layout = () => {
 
 const router = createBrowserRouter([
   {
-    path:'/',
+    path: '/',
     element: <Layout />,
     children: [
       {
-        path:'/',
-        element:<Home />
+        path: '/',
+        element: <Home />
       },
       {
-        path:'/products/:gender',
-        element:<Products />
+        path: '/products/:category',
+        element: <Products />
       },
       {
-        path:'/product/:id',
-        element:<Product />
+        path: '/product/:category/:id',
+        element: <Product />
       },
       {
-        path:'/login',
+        path: '/login',
         element: <Login />
       },
       {
-        path:'/register',
+        path: '/register',
         element: <Register />
       },
       {
-        path:'/cart',
+        path: '/cart',
         element: <CartPage />
       }
     ],
