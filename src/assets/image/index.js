@@ -23,32 +23,32 @@ import menBanner from './men-banner.png'
 import womenBanner from './women-banner.png'
 
 export const sliderImages = [
-    home1,
-    home2,
-    home3
+  home1,
+  home2,
+  home3
 ]
 
 
-export const products = [
-    item11,
-    item12,
-    item21,
-    item22,
-    item31,
-    item32,
-    item41,
-    item42,
-    item51,
-    item52,
-    item61,
-    item62,
-    item71,
-    item72,
-    item81,
-    item82,
-]
+export const products = {
+  item11,
+  item12,
+  item21,
+  item22,
+  item31,
+  item32,
+  item41,
+  item42,
+  item51,
+  item52,
+  item61,
+  item62,
+  item71,
+  item72,
+  item81,
+  item82,
+}
 
 export const categoryBanners = {
-    menBanner: menBanner,
-    womenBanner: womenBanner,
+  menBanner: menBanner,
+  womenBanner: womenBanner,
 }
