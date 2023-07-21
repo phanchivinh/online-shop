@@ -32,25 +32,25 @@ const Navbar = () => {
           <ul className='hidden md:flex items-center'>
             <li className='font-bold text-xl hover:opacity-70'><Link to=''>Trang chủ</Link></li>
             <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>Nam</Link>
-              <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
+              <Link to='/products/men' className='font-bold text-xl hover:opacity-70'>Nam</Link>
+              {/* <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Áo thun</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Quần</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Phụ kiện</Link></li>
-              </ul>
+              </ul> */}
             </li>
             <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>Nữ</Link>
-              <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
+              <Link to='/products/women' className='font-bold text-xl hover:opacity-70'>Nữ</Link>
+              {/* <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Áo thun</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Quần</Link></li>
                 <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Phụ kiện</Link></li>
-              </ul>
+              </ul> */}
             </li>
             <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>Giảm giá</Link>
+              <Link to='/products/sales' className='font-bold text-xl hover:opacity-70'>Giảm giá</Link>
             </li>
             <li className='group/item mx-2 relative'>
               <Link to='' className='font-bold text-xl hover:opacity-70'>Về chúng tôi</Link>

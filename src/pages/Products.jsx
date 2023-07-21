@@ -1,11 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import categoryImg from '../assets/image/category.png'
 import List from '../components/List'
 import { TbAdjustmentsHorizontal } from 'react-icons/tb'
 import { AiOutlineClose } from 'react-icons/ai'
+import { productData } from '../model/data/mockData'
+import Card from '../components/Card'
+
+
+const getProducts = async () => {
+  try {
+    const response = await productData;
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const Products = () => {
+
+  /*-----------------------*/
+  const [products, setProducts] = useState([]);
+  // Fetch data:
+  useEffect(() => {
+    // Get products:
+    getProducts().then((response) => {
+      setProducts(response);
+    });
+  });
+  /*-----------------------*/
+
   const [sidebar, setSidebar] = useState(false)
   const category = useParams().category;
   const [sort, setSort] = useState("newest")
@@ -151,7 +175,12 @@ const Products = () => {
           </div>
         </div>
 
-        <List category={category} filters={filters} sort={sort} />
+        {/* <List category={category} filters={filters} sort={sort} /> */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
+          {products.map((item) => (
+            <Card item={item} key={item._id} />
+          ))}
+        </div>
       </div>
     </div>
   )

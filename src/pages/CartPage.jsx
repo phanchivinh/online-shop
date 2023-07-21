@@ -6,7 +6,7 @@ const Cart = () => {
   const data = [
     {
       id: 1,
-      img: products[0],
+      img: "https://res.cloudinary.com/dnatymzuo/image/upload/shopping-web/ao-so-mi-oxford_lnbnqu.jpg",
       img2: products[1],
       title: 'BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - AWAY',
       desc: 'Đây là mô tả được viết tạm thời của item :BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - AWAY',
@@ -14,7 +14,7 @@ const Cart = () => {
     },
     {
       id: 2,
-      img: products[2],
+      img: "https://res.cloudinary.com/dnatymzuo/image/upload/shopping-web/ao-so-mi-oxford_lnbnqu.jpg",
       img2: products[3],
       title: 'BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - HOME',
       desc: 'Đây là mô tả được viết tạm thời của item :BỘ QUẦN ÁO BÓNG ĐÁ *ANGLE* - HOME',

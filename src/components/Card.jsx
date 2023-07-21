@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Card = ({ item }) => {
   const IMAGE_URL =
-    'https://cf.shopee.vn/file/1d3b8f162e40c4977324a21062de8558';
+    'https://res.cloudinary.com/dnatymzuo/image/upload/shopping-web/ao-so-mi-oxford_lnbnqu.jpg';
 
   return (
     <Link
-      to={`/product/${item.id}`}
+      to={`/product/${item._id}`}
       className="flex justify-center items-center mb-6"
     >
       <div className="w-full min-[525px]:w-[200px] flex flex-col justify-center items-center">
@@ -16,7 +16,7 @@ const Card = ({ item }) => {
           <img
             src={IMAGE_URL}
             alt={`${item.title}`}
-            // className="w-full h-full object-cover absolute"
+          // className="w-full h-full object-cover absolute"
           />
         </div>
         <div className="font-bold text-xs min-[525px]:text-sm">

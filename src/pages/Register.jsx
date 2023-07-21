@@ -62,10 +62,10 @@ const Register = () => {
         </div>
 
         {/* Login with social */}
-        <div className='flex flex-col items-center gap-3'>
+        {/* <div className='flex flex-col items-center gap-3'>
           <button className='flex p-1 text-white text-lg w-52 justify-center items-center gap-2 bg-blue-700 hover:opacity-80'><FaFacebookF /> Đăng nhập với Facebook</button>
           <button className='flex p-1 text-white text-lg w-52 justify-center items-center gap-2 bg-red-700 hover:opacity-80'><FaGooglePlusG /> Đăng nhập với Google</button>
-        </div>
+        </div> */}
       </form>
     </div>
   )
