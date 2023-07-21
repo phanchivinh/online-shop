@@ -15,7 +15,7 @@ import Announcement from "./components/Announcement";
 const Layout = () => {
   return (
     <div className="app">
-      <Announcement />
+      {/* <Announcement /> */}
       <Navbar />
       <Outlet />
       <Footer />
