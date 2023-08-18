@@ -10,9 +10,9 @@ const Card = ({ item }) => {
       to={`/product/${item._id}`}
       className="flex justify-center items-center mb-6"
     >
-      <div className="w-full min-[525px]:w-[200px] flex flex-col justify-center items-center">
+      <div className="w-full min-[525px]:w-[200px] rounded-lg overflow-hidden flex flex-col justify-center items-center bg-white">
         {/* image */}
-        <div className="mb-4 w-full h-[200px] min-[525px]:h-[280px] overflow-hidden relative group">
+        <div className="mb-4 w-full h-[180px] min-[525px]:h-[280px] overflow-hidden relative group">
           <img
             src={IMAGE_URL}
             alt={`${item.title}`}
@@ -31,6 +31,7 @@ const Card = ({ item }) => {
             })}
           </h3>
         </div>
+        <div>Thêm vào giỏ hàng</div>
       </div>
     </Link>
   );
