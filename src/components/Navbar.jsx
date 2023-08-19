@@ -2,13 +2,43 @@ import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Cart from './Cart'
 import { BsSearch, BsCartPlus } from 'react-icons/bs'
-import { AiOutlineUser, AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { BiLogIn } from 'react-icons/bi'
 import { FaUserPlus } from 'react-icons/fa'
+import { Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
+import { TfiSettings } from 'react-icons/tfi'
+import { FiLogOut } from 'react-icons/fi'
 
 const Navbar = () => {
   const [sidebar, setSidebar] = useState(false)
   // const location = useLocation()
+  const [anchorElMen, setAnchorElMen] = React.useState(null);
+  const [anchorElWomen, setAnchorElWomen] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const openMen = Boolean(anchorElMen);
+  const openWomen = Boolean(anchorElWomen);
+  const openUser = Boolean(anchorElUser);
+
+  const handleMenClick = (event) => {
+    setAnchorElMen(event.currentTarget);
+  };
+  const handleWomenClick = (event) => {
+    setAnchorElWomen(event.currentTarget);
+  };
+  const handleUserClick = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleMenClose = () => {
+    setAnchorElMen(null);
+  };
+  const handleWomenClose = () => {
+    setAnchorElWomen(null);
+  };
+  const handleUserClose = () => {
+    setAnchorElUser(null);
+  };
+
 
   const cartRef = useRef()
 
@@ -30,30 +60,62 @@ const Navbar = () => {
             </span>
           </Link>
           <ul className='hidden md:flex items-center'>
-            <li className='font-bold text-xl hover:opacity-70'><Link to=''>Trang chủ</Link></li>
-            <li className='group/item mx-2 relative'>
-              <Link to='/products/men' className='font-bold text-xl hover:opacity-70'>Nam</Link>
-              {/* <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Áo thun</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Quần</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Phụ kiện</Link></li>
-              </ul> */}
+            <li className='group/item mx-2 relative text-black'>
+              <Button id="men-menu-button" aria-controls={openMen ? 'men-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMen ? 'true' : undefined}
+                onClick={handleMenClick}
+              >
+                <p className='text-black font-bold text-xl'>Nam</p>
+              </Button>
+              <Menu id='men-menu'
+                aria-labelledby="men-menu-button"
+                anchorEl={anchorElMen}
+                open={openMen}
+                onClose={handleMenClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem onClick={handleMenClose}>Áo thun</MenuItem>
+                <MenuItem onClick={handleMenClose}>Áo sơ-mi</MenuItem>
+                <MenuItem onClick={handleMenClose}>Áo bóng đá</MenuItem>
+              </Menu>
             </li>
             <li className='group/item mx-2 relative'>
-              <Link to='/products/women' className='font-bold text-xl hover:opacity-70'>Nữ</Link>
-              {/* <ul className='z-10 absolute shadow-md shadow-black top-14 bg-white group-hover/item:block hidden'>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Tất cả sản phẩm</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Áo thun</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Quần</Link></li>
-                <li className='text-sm min-w-[150px] p-2 group-hover/item:block border-b border-gray '><Link to=''>Phụ kiện</Link></li>
-              </ul> */}
+              <Button id="women-menu-button" aria-controls={openWomen ? 'women-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openWomen ? 'true' : undefined}
+                onClick={handleWomenClick}
+              >
+                <p className='text-black font-bold text-xl'>Nữ</p>
+              </Button>
+              <Menu id='women-menu'
+                aria-labelledby="women-menu-button"
+                anchorEl={anchorElWomen}
+                open={openWomen}
+                onClose={handleWomenClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem onClick={handleWomenClose}>Áo thun</MenuItem>
+                <MenuItem onClick={handleWomenClose}>Áo thun nữ</MenuItem>
+                <MenuItem onClick={handleWomenClose}>Váy</MenuItem>
+              </Menu>
             </li>
             <li className='group/item mx-2 relative'>
-              <Link to='/products/sales' className='font-bold text-xl hover:opacity-70'>Giảm giá</Link>
-            </li>
-            <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>Về chúng tôi</Link>
+              <Link to='' className='font-bold text-xl hover:opacity-70'>ABOUT US</Link>
             </li>
           </ul>
         </div>
@@ -66,7 +128,45 @@ const Navbar = () => {
           </div>
           {/* User */}
           {/* {location.state.fullName && <span>{location.state.fullName}</span>} */}
-          <Link to='/login' className='hidden md:block m-2 text-2xl hover:text-blue-500 cursor-pointer'><AiOutlineUser /></Link>
+          {/* <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+            ĐĂNG NHẬP/ĐĂNG KÝ
+          </Link> */}
+          <div>
+            <Tooltip title="Account Setting">
+              <IconButton
+                onClick={handleUserClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={openUser ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openUser ? 'true' : undefined}
+              >
+                <Avatar />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorElUser}
+              id="account-menu"
+              open={openUser}
+              onClose={handleUserClose}
+              onClick={handleUserClose}
+            >
+              <MenuItem onClick={handleUserClose}>
+                <ListItemIcon>
+                  <TfiSettings />
+                </ListItemIcon>
+                Tài khoản
+              </MenuItem>
+              <MenuItem onClick={handleUserClose}>
+                <ListItemIcon>
+                  <FiLogOut />
+                </ListItemIcon>
+                Đăng xuất
+              </MenuItem>
+            </Menu>
+          </div>
+
+          {/* Cart */}
           <div className='m-2 text-2xl relative hover:text-blue-500 cursor-pointer' onClick={() => cartRef.current.setOpenCart(true)}>
             <BsCartPlus />
             <span className='absolute top-[-10px] right-[-10px] text-sm bg-blue-600 text-white px-2 rounded-full'>0</span>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaCartPlus } from 'react-icons/fa'
 
 const Card = ({ item }) => {
   const IMAGE_URL =
@@ -7,31 +8,48 @@ const Card = ({ item }) => {
 
   return (
     <Link
-      to={`/product/${item._id}`}
+      to={`/product/${item.product_id}`}
       className="flex justify-center items-center mb-6"
     >
-      <div className="w-full min-[525px]:w-[200px] rounded-lg overflow-hidden flex flex-col justify-center items-center bg-white">
+      <div className="w-full min-[525px]:w-[200px] hover:scale-110 rounded-lg overflow-hidden flex flex-col justify-center items-center bg-white shadow-sm shadow-black">
         {/* image */}
-        <div className="mb-4 w-full h-[180px] min-[525px]:h-[280px] overflow-hidden relative group">
+        <div className=" w-full h-[180px] min-[525px]:h-[240px] mb-1 overflow-hidden relative group">
           <img
-            src={IMAGE_URL}
-            alt={`${item.title}`}
-          // className="w-full h-full object-cover absolute"
+            src={item.product_image || IMAGE_URL}
+            alt={`${item.product_name}`}
+            className='object-cover w-full'
           />
         </div>
-        <div className="font-bold text-xs min-[525px]:text-sm">
-          <h3 className="text-center">{item.title}</h3>
-          <h3 className="text-center">
-            {item.price.toLocaleString('vi-VN', {
+        <div className="font-bold text-xs h-14 ml-2 min-[525px]:text-sm">
+          <h3 className="text-left">{item.product_name}</h3>
+        </div>
+
+        <div className='mx-2 w-full flex justify-evenly'>
+          <p className={`text-left font-bold mb-2 ${item.product_discount_price > 0 ? 'text-red-300 line-through text-sm' : 'text-red-700'}`}>
+            {item.product_price.toLocaleString('vi-VN', {
               style: 'currency',
               currency: 'VND',
               minimumFractionDigits: 0,
               maximumFractionDigits: 2,
               useGrouping: true,
             })}
-          </h3>
+          </p>
+          {
+            item.product_discount_price > 0 && (<p className='text-left text-xl font-bold mb-2 text-red-600'>
+              {item.product_price.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+                useGrouping: true,
+              })}
+            </p>)
+          }
         </div>
-        <div>Thêm vào giỏ hàng</div>
+        <button className='flex mb-2 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg'>
+          <FaCartPlus className='mr-2' />
+          Thêm vào giỏ
+        </button>
       </div>
     </Link>
   );

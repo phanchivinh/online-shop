@@ -6,12 +6,16 @@ import { TbAdjustmentsHorizontal } from 'react-icons/tb'
 import { AiOutlineClose } from 'react-icons/ai'
 import { productData } from '../model/data/mockData'
 import Card from '../components/Card'
+import axios from 'axios'
+import { Pagination } from '@mui/material'
+const NUMBER_OF_ITEMS = 20
 
-
-const getProducts = async () => {
+const fetchAPI = async () => {
   try {
-    const response = await productData;
-    return response;
+    const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
+      (res) => res.data
+    )
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -21,13 +25,33 @@ const Products = () => {
 
   /*-----------------------*/
   const [products, setProducts] = useState([]);
+  const [currentProducts, setCurrentProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const handlePageNumberChange = (event, value) => {
+    setCurrentPage(value);
+  }
+
+  const pageNumber = useParams().page
   // Fetch data:
   useEffect(() => {
     // Get products:
-    getProducts().then((response) => {
-      setProducts(response);
-    });
-  });
+    const getProducts = async () => {
+      const res = await fetchAPI()
+      setProducts(res.data.products)
+      setTotalPages(Math.ceil(res.data.products.length / NUMBER_OF_ITEMS))
+    }
+
+    getProducts()
+  }, []);
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * NUMBER_OF_ITEMS || 0;
+    const endIndex = startIndex + 20;
+    setCurrentProducts(products.slice(startIndex, endIndex))
+
+  }, [currentPage])
   /*-----------------------*/
 
   const [sidebar, setSidebar] = useState(false)
@@ -177,9 +201,13 @@ const Products = () => {
 
         {/* <List category={category} filters={filters} sort={sort} /> */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
-          {products.map((item) => (
-            <Card item={item} key={item._id} />
+          {currentProducts.map((item) => (
+            <Card item={item} key={item.product_id} />
           ))}
+        </div>
+
+        <div className='flex justify-center'>
+          <Pagination count={totalPages} page={currentPage} onChange={handlePageNumberChange} color='primary' />
         </div>
       </div>
     </div>

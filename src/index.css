@@ -7,10 +7,14 @@
 
 @layer base {
     *{
-        @apply box-border
+        @apply box-border;
     }
 
     body {
         @apply font-robotoCon
     }
+}
+
+@layer utilities {
+
 }

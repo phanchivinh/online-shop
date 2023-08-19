@@ -33,7 +33,7 @@ const Cart = (props, cartRef) => {
       <AiOutlineArrowRight className='text-xl cursor-pointer' onClick={() => setOpenCart(false)} />
       <h1 className='text-blue-300 my-4 text-2xl font-bold'>Giỏ hàng của bạn</h1>
       {data?.map((item) => (
-        <div className='flex items-center gap-4 mb-4' key={`cart-${item._id}`}>
+        <div className='flex items-center gap-4 mb-4' key={`cart-${item.id}`}>
           <img className='w-20 h-24 object-cover pointer-events-none' src={item.img} alt='item' />
           {/* detail */}
           <div>
