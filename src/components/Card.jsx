@@ -11,7 +11,7 @@ const Card = ({ item }) => {
       to={`/product/${item.product_id}`}
       className="flex justify-center items-center mb-6"
     >
-      <div className="w-full min-[525px]:w-[200px] hover:scale-110 rounded-lg overflow-hidden flex flex-col justify-center items-center bg-white shadow-sm shadow-black">
+      <div className="w-full min-[525px]:w-[200px] hover:scale-110 duration-200 rounded-lg overflow-hidden flex flex-col justify-center items-center bg-white shadow-sm shadow-black">
         {/* image */}
         <div className=" w-full h-[180px] min-[525px]:h-[240px] mb-1 overflow-hidden relative group">
           <img
