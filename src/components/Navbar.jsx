@@ -122,16 +122,16 @@ const Navbar = () => {
         {/* Right */}
         <div className='flex'>
           {/* search box */}
-          <div className='hidden md:flex border-2 border-blue-300'>
+          <div className='hidden md:flex border-2 border-blue-300 rounded-md overflow-hidden'>
             <input type='text' placeholder='Tìm kiếm...' className='outline-none px-1 border-r-2 border-r-blue-300' />
-            <div className='m-2 text-2xl hover:text-blue-500 cursor-pointer'><BsSearch /></div>
+            <div className='w-full h-full p-2 text-2xl hover:bg-blue-500 hover:text-white duration-150 cursor-pointer'><BsSearch /></div>
           </div>
           {/* User */}
           {/* {location.state.fullName && <span>{location.state.fullName}</span>} */}
-          {/* <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+          <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
             ĐĂNG NHẬP/ĐĂNG KÝ
-          </Link> */}
-          <div>
+          </Link>
+          {/* <div>
             <Tooltip title="Account Setting">
               <IconButton
                 onClick={handleUserClick}
@@ -164,7 +164,7 @@ const Navbar = () => {
                 Đăng xuất
               </MenuItem>
             </Menu>
-          </div>
+          </div> */}
 
           {/* Cart */}
           <div className='m-2 text-2xl relative hover:text-blue-500 cursor-pointer' onClick={() => cartRef.current.setOpenCart(true)}>

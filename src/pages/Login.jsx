@@ -11,7 +11,7 @@ const Login = () => {
   const onSignIn = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/login", {
+      await axios.post("https://shopping-back-end.minhtriet.dev/api/v1/auth/user/sign-in", {
         email,
         password
       }).then(res => {

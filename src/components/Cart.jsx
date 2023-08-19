@@ -49,7 +49,7 @@ const Cart = (props, cartRef) => {
         <span className='font-semibold'>Tổng cộng:</span>
         <span>1.000.000 đ</span>
       </div>
-      <Link to="/cart"><button className='flex gap-4 items-center justify-center p-3 text-white font-bold w-full bg-blue-500 cursor-pointer'>THANH TOÁN</button></Link>
+      <Link onClick={() => setOpenCart(false)} to="/cart"><button className='flex gap-4 items-center justify-center p-3 text-white font-bold w-full bg-blue-500 cursor-pointer'>THANH TOÁN</button></Link>
     </div>
   )
 }

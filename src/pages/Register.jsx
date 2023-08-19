@@ -1,31 +1,74 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa'
+import { Autocomplete, TextField } from '@mui/material'
 
 const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [fullName, setFullName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
+  const [selectedProvince, setSelectedProvince] = useState(null)
+  const [selectedDistrict, setSelectedDistrict] = useState(null)
+  const [selectedWard, setSelectedWard] = useState(null)
 
+  // Address Options
+  const [provinceOptions, setProvinceOptions] = useState([])
+  const [districtOptions, setDistrictOptions] = useState([])
+  const [wardOptions, setWardOptions] = useState([])
+
+  /* -------------------------------- */
+  const top100Films = [
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
+    { label: 'The Dark Knight', year: 2008 },
+    { label: '12 Angry Men', year: 1957 },
+    { label: "Schindler's List", year: 1993 },
+    { label: 'Pulp Fiction', year: 1994 }
+  ]
   const onSignUp = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/api/auth/register", {
         email,
         password,
-        fullName,
+        firstName,
+        lastName,
         phoneNumber
       }).then(res => {
         if (res.data) {
           console.log(res.data)
+          debugger
         }
       })
     } catch (err) {
       console.log(err)
     }
   }
+
+  //useEffect to fetch Provinces
+  useEffect(() => {
+    const getProvinceData = async () => {
+      try {
+        const resData = await axios.get('https://provinces.open-api.vn/api/p/').then(res => res.data)
+        const provinces = resData.map(item => ({
+          label: item.name,
+          code: item.code
+        }))
+        setProvinceOptions(provinces)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getProvinceData()
+  }, [])
+
+  //TODO - handle change here
+
+  /* -------------------------------- */
   return (
     <div className='flex justify-center pt-6'>
       <form>
@@ -46,13 +89,55 @@ const Register = () => {
           </div>
           {/* Full name Input */}
           <div className='flex flex-col gap-1 mb-4'>
-            <label htmlFor='name' className='font-bold text-black/80'>Họ và Tên:</label>
-            <input type='text' value={fullName} id='name' onChange={(e) => setFullName(e.target.value)} placeholder='Họ và tên...' className='border border-black/70 focus:border-black p-2' />
+            <label htmlFor='name' className='font-bold text-black/80'>Họ và tên đệm:</label>
+            <input type='text' value={firstName} id='name' onChange={(e) => setFirstName(e.target.value)} placeholder='Họ và tên đệm...' className='border border-black/70 focus:border-black p-2' />
+          </div>
+          <div className='flex flex-col gap-1 mb-4'>
+            <label htmlFor='name' className='font-bold text-black/80'>Tên:</label>
+            <input type='text' value={lastName} id='name' onChange={(e) => setLastName(e.target.value)} placeholder='Tên...' className='border border-black/70 focus:border-black p-2' />
           </div>
           {/* Phone Number Field */}
           <div className='flex flex-col gap-1 mb-8'>
             <label htmlFor='phone' className='font-bold text-black/80'>Số điện thoại:</label>
             <input type='text' value={phoneNumber} id='phone' onChange={(e) => setPhoneNumber(e.target.value)} placeholder='Số điện thoại...' className='border border-black/70 focus:border-black p-2' />
+          </div>
+
+          <div>
+            <label htmlFor='phone' className='font-bold text-black/80'>Địa chỉ:</label>
+            <div>
+              <Autocomplete
+                disablePortal
+                id="province-box"
+                options={provinceOptions}
+                value={selectedProvince}
+                onChange={(event, value) => setSelectedProvince(value.label)}
+                sx={{ height: 70 }}
+                renderInput={(params) => <TextField {...params} label="Tỉnh/Thành phố" />}
+              />
+              <Autocomplete
+                disablePortal
+                id="dítrict-box"
+                options={districtOptions}
+                value={selectedDistrict}
+                onChange={(event, value) => setSelectedDistrict(value.label)}
+                sx={{ height: 70 }}
+                renderInput={(params) => <TextField {...params} label="Quận/Huyện" />}
+              />
+            </div>
+            <div>
+              <Autocomplete
+                disablePortal
+                id="ward-box"
+                options={wardOptions}
+                value={selectedWard}
+                onChange={(event, value) => setSelectedWard(value.label)}
+                sx={{ height: 70 }}
+                renderInput={(params) => <TextField {...params} label="Phường/Xã" />}
+              />
+            </div>
+            <div>
+
+            </div>
           </div>
         </div>
 

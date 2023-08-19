@@ -28,7 +28,6 @@ const Products = () => {
   const [currentProducts, setCurrentProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
   const handlePageNumberChange = (event, value) => {
     setCurrentPage(value);
   }
@@ -47,7 +46,8 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    const startIndex = (currentPage - 1) * NUMBER_OF_ITEMS || 0;
+    debugger
+    const startIndex = (currentPage - 1) * NUMBER_OF_ITEMS;
     const endIndex = startIndex + 20;
     setCurrentProducts(products.slice(startIndex, endIndex))
 
