@@ -128,9 +128,14 @@ const Navbar = () => {
           </div>
           {/* User */}
           {/* {location.state.fullName && <span>{location.state.fullName}</span>} */}
-          <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
-            ĐĂNG NHẬP/ĐĂNG KÝ
-          </Link>
+          <span className='flex justify-center items-center'>
+            <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+              ĐĂNG NHẬP
+            </Link>
+            <Link to='/register' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+              ĐĂNG KÝ
+            </Link>
+          </span>
           {/* <div>
             <Tooltip title="Account Setting">
               <IconButton

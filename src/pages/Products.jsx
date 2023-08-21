@@ -24,6 +24,7 @@ const fetchAPI = async () => {
 const Products = () => {
 
   /*-----------------------*/
+
   const [products, setProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +33,6 @@ const Products = () => {
     setCurrentPage(value);
   }
 
-  const pageNumber = useParams().page
   // Fetch data:
   useEffect(() => {
     // Get products:
@@ -46,12 +46,11 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    debugger
     const startIndex = (currentPage - 1) * NUMBER_OF_ITEMS;
     const endIndex = startIndex + 20;
     setCurrentProducts(products.slice(startIndex, endIndex))
 
-  }, [currentPage])
+  }, [currentPage, products])
   /*-----------------------*/
 
   const [sidebar, setSidebar] = useState(false)

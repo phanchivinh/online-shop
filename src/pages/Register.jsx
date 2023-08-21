@@ -5,14 +5,22 @@ import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa'
 import { Autocomplete, TextField } from '@mui/material'
 
 const Register = () => {
-  const [email, setEmail] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [email, setEmail] = useState("test")
   const [password, setPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [selectedProvince, setSelectedProvince] = useState(null)
-  const [selectedDistrict, setSelectedDistrict] = useState(null)
-  const [selectedWard, setSelectedWard] = useState(null)
+  const [selectedProvince, setSelectedProvince] = useState("")
+  const [selectedDistrict, setSelectedDistrict] = useState("")
+  const [selectedWard, setSelectedWard] = useState("")
+  const [houseNumber, setHouseNumber] = useState("")
+
+
+  // let address = `${houseNumber ? `${houseNumber},` : ""}
+  // ${selectedWard ? `${selectedWard},` : ""}
+  // ${selectedDistrict ? `${selectedDistrict},` : ""}
+  // ${selectedProvince || ""}`
 
   // Address Options
   const [provinceOptions, setProvinceOptions] = useState([])
@@ -20,29 +28,27 @@ const Register = () => {
   const [wardOptions, setWardOptions] = useState([])
 
   /* -------------------------------- */
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 }
-  ]
-  const onSignUp = async (e) => {
-    e.preventDefault();
+  const onSignUp = async (event) => {
+    event.preventDefault();
+    const address = `${houseNumber ? `${houseNumber},` : ""} ${selectedWard ? `${selectedWard},` : ""} ${selectedDistrict ? `${selectedDistrict},` : ""} ${selectedProvince || ""}`
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        email,
-        password,
-        firstName,
-        lastName,
-        phoneNumber
+      await axios.post("https://shopping-back-end.minhtriet.dev/api/v1/auth/user/sign-up", {
+        "email": email,
+        "password": password,
+        "first_name": firstName,
+        "last_name": lastName,
+        "address": address,
+        "phone_number": phoneNumber
       }).then(res => {
-        if (res.data) {
-          console.log(res.data)
-          debugger
+        if (!res.data.success) {
+          const resMessage = res.data.message;
+          //Remove first word of message ("usrPhnNo Hãy nhập số điện thoại hợp lệ")
+          const message = resMessage.substr(resMessage.indexOf(" ") + 1)
+          setErrorMessage(message)
+          return
         }
+        //TODO - handle success
+
       })
     } catch (err) {
       console.log(err)
@@ -66,21 +72,52 @@ const Register = () => {
     getProvinceData()
   }, [])
 
-  //TODO - handle change here
+  const onProvinceChange = async (event, province) => {
+    setSelectedProvince(province.label)
+    try {
+      const resData = await axios.get(`https://provinces.open-api.vn/api/p/${province.code}/?depth=2`).then(res => res.data)
+      const districts = resData.districts.map(item => ({
+        label: item.name,
+        code: item.code
+      }))
+      setDistrictOptions(districts)
+      return
+    } catch (error) {
+      console.log(error)
+      return
+    }
+  }
+
+  const onDistrictChange = async (event, district) => {
+    setSelectedDistrict(district.label);
+    try {
+      const resData = await axios.get(`https://provinces.open-api.vn/api/d/${district.code}/?depth=2`).then(res => res.data)
+      const wards = resData.wards.map(item => ({
+        label: item.name,
+        code: item.code
+      }))
+      setWardOptions(wards)
+      return
+    } catch (error) {
+      console.log(error)
+      return
+    }
+  }
 
   /* -------------------------------- */
   return (
     <div className='flex justify-center pt-6'>
-      <form>
+      <form onSubmit={(event) => onSignUp(event)}>
         <h1 className='text-center uppercase text-xl min-[425px]:text-2xl font-bold'>Đăng ký tài khoản</h1>
         <div className='w-52 min-[425px]:w-96 h-2 mb-4 min-[425px]:mb-10 border-b-4 border-b-blue-300' />
 
         {/* Register field */}
         <div>
+          <p className='text-red-600'>{errorMessage}</p>
           {/* Email Input */}
           <div className='flex flex-col gap-1 mb-4'>
             <label htmlFor='email' className='font-bold text-black/80'>Email:</label>
-            <input type='email' value={email} id='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email...' className='border border-black/70 focus:border-black p-2' />
+            <input type='email' name='email' value={email} id='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email...' className='border border-black/70 focus:border-black p-2' />
           </div>
           {/* Password Input */}
           <div className='flex flex-col gap-1 mb-4'>
@@ -103,37 +140,43 @@ const Register = () => {
           </div>
 
           <div>
-            <label htmlFor='phone' className='font-bold text-black/80'>Địa chỉ:</label>
-            <div>
+            <label htmlFor='phone' className='font-bold text-black/80'>
+              Địa chỉ:
+              <p>
+                {
+                  `${houseNumber ? `${houseNumber},` : ""} ${selectedWard ? `${selectedWard},` : ""} ${selectedDistrict ? `${selectedDistrict},` : ""} ${selectedProvince || ""}`
+                }
+              </p>
+            </label>
+            <div className='my-4 p-2 border border-blue-400 rounded-lg'>
               <Autocomplete
                 disablePortal
                 id="province-box"
                 options={provinceOptions}
-                value={selectedProvince}
-                onChange={(event, value) => setSelectedProvince(value.label)}
+                onChange={async (event, value) => { await onProvinceChange(event, value) }}
                 sx={{ height: 70 }}
+                size='sm'
                 renderInput={(params) => <TextField {...params} label="Tỉnh/Thành phố" />}
               />
               <Autocomplete
                 disablePortal
                 id="dítrict-box"
                 options={districtOptions}
-                value={selectedDistrict}
-                onChange={(event, value) => setSelectedDistrict(value.label)}
+                onChange={async (event, value) => await onDistrictChange(event, value)}
                 sx={{ height: 70 }}
+                size='sm'
                 renderInput={(params) => <TextField {...params} label="Quận/Huyện" />}
               />
-            </div>
-            <div>
               <Autocomplete
                 disablePortal
                 id="ward-box"
                 options={wardOptions}
-                value={selectedWard}
+                size='sm'
                 onChange={(event, value) => setSelectedWard(value.label)}
                 sx={{ height: 70 }}
                 renderInput={(params) => <TextField {...params} label="Phường/Xã" />}
               />
+              <input type='text' value={houseNumber} id='phone' onChange={(e) => setHouseNumber(e.target.value)} placeholder='Số nhà, đường...' className='border border-black/70 focus:border-black p-4 w-full rounded-md' />
             </div>
             <div>
 
@@ -142,7 +185,7 @@ const Register = () => {
         </div>
 
         <div className='flex flex-col gap-4 items-center mb-10'>
-          <button type='submit' onClick={(e) => onSignUp(e)} className='w-full min-[425px]:w-48 border-2 border-blue-400 text-blue-400 p-2 font-bold hover:bg-blue-400 hover:text-white duration-300 ease-linear uppercase'>Đăng ký</button>
+          <button type='submit' className='w-full min-[425px]:w-48 border-2 border-blue-400 text-blue-400 p-2 font-bold hover:bg-blue-400 hover:text-white duration-300 ease-linear uppercase'>Đăng ký</button>
           <span>Bạn đã có tài khoản? <Link to='/login' className='underline hover:text-blue-400'>Đăng nhập</Link></span>
         </div>
 
