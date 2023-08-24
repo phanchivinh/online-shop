@@ -12,10 +12,11 @@ const NUMBER_OF_ITEMS = 20
 
 const fetchAPI = async () => {
   try {
-    const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
-      (res) => res.data
-    )
-    return res;
+    // const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
+    //   (res) => res.data
+    // )
+    // return res;
+    return productData
   } catch (error) {
     console.log(error);
   }
@@ -24,7 +25,6 @@ const fetchAPI = async () => {
 const Products = () => {
 
   /*-----------------------*/
-
   const [products, setProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

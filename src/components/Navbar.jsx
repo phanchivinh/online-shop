@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Cart from './Cart'
 import { BsSearch, BsCartPlus } from 'react-icons/bs'
@@ -10,6 +11,7 @@ import { TfiSettings } from 'react-icons/tfi'
 import { FiLogOut } from 'react-icons/fi'
 
 const Navbar = () => {
+  const cartTotalItems = useSelector(state => state.cart.totalQuantity)
   const [sidebar, setSidebar] = useState(false)
   // const location = useLocation()
   const [anchorElMen, setAnchorElMen] = React.useState(null);
@@ -174,7 +176,7 @@ const Navbar = () => {
           {/* Cart */}
           <div className='m-2 text-2xl relative hover:text-blue-500 cursor-pointer' onClick={() => cartRef.current.setOpenCart(true)}>
             <BsCartPlus />
-            <span className='absolute top-[-10px] right-[-10px] text-sm bg-blue-600 text-white px-2 rounded-full'>0</span>
+            <span className='absolute top-[-10px] right-[-10px] text-sm bg-blue-600 text-white px-2 rounded-full'>{cartTotalItems}</span>
           </div>
         </div>
       </div>
