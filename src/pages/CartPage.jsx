@@ -1,8 +1,17 @@
-import React from 'react'
-import { products } from '../assets/image'
+import { useState } from 'react'
+import { images, products } from '../assets/image'
+import { useSelector } from 'react-redux'
+import StripeCheckout from 'react-stripe-checkout'
 
 const Cart = () => {
+  const cart = useSelector(state => state.cart)
+  const [stripeToken, setStripeToken] = useState(null)
+  const KEY = process.env.REACT_APP_STRIPE
+  const onToken = (token) => {
+    setStripeToken(token)
+  }
 
+  console.log(stripeToken)
   const data = [
     {
       id: 1,
@@ -40,17 +49,18 @@ const Cart = () => {
 
         {/* info */}
         <div className='flex-[3]'>
-          {data?.map(item => (
-            <div key={`cart-${item.id}`} className='mt-5 flex justify-between pb-4 border-b border-black/50'>
+          {cart.products?.map(item => (
+            <div key={`cart-${item.product_id}`} className='mt-5 flex justify-between pb-4 border-b border-black/50'>
               {/* Product details */}
               <div className='flex-[2] flex '>
-                <img src={item.img} alt={`${item.id}`} className='w-52 h-auto' />
+                <img src={item.product_image} alt={`${item.product_id}`} className='w-52 h-auto' />
                 {/* Details */}
                 <div className='p-5 flex flex-col justify-around'>
-                  <span><b>Tên sản phẩm: </b>{item.title}</span>
-                  <span><b>ID:</b>{item.id}</span>
-                  <div>Color:4gf245d</div>
-                  <span>Size</span>
+                  <span><b>Tên sản phẩm: </b>{item.product_name}</span>
+                  <span><b>ID:</b>{item.product_id}</span>
+                  <span><b>CHI TIẾT: </b>{item.product_description}</span>
+                  <div><b>Color: </b> {item.color_name}</div>
+                  <span><b>Size: </b>{item.size_name}</span>
                 </div>
               </div>
               {/* Price detail */}
@@ -58,12 +68,18 @@ const Cart = () => {
                 <div>
                   {/* Product amount */}
                   <div className='flex items-center text-lg mb-5'>
-                    <button className='bg-gray-200 w-10 border border-black rounded-lg hover:bg-blue-50'>+</button>
-                    <span className='m-3 text-2xl'>1</span>
                     <button className='bg-gray-200 w-10 border border-black rounded-lg hover:bg-blue-50'>-</button>
+                    <span className='m-3 text-2xl'>1</span>
+                    <button className='bg-gray-200 w-10 border border-black rounded-lg hover:bg-blue-50'>+</button>
                   </div>
                   {/* Product price */}
-                  <span className='text-xl'>Giá: {item.price}</span>
+                  <span className='text-xl text-red-600 font-bold'>Giá: {item.product_price.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                    useGrouping: true,
+                  })}</span>
                 </div>
               </div>
             </div>
@@ -93,8 +109,18 @@ const Cart = () => {
             <span>Tổng cộng: </span>
             <span>1.340.000</span>
           </div>
-
-          <button className='w-full bg-blue-300 p-2 rounded-lg text-white hover:bg-blue-400'>Thanh toán ngay</button>
+          <StripeCheckout
+            name='V&T Shop'
+            image='https://res.cloudinary.com/dnatymzuo/image/upload/shopping-web/ao-so-mi-oxford_lnbnqu.jpg'
+            billingAddress
+            shippingAddress
+            description={`Tổng hóa đơn của bạn là ${cart.totalPrice}`}
+            amount={cart.totalPrice}
+            token={onToken}
+            stripeKey={KEY}
+          >
+            <button className='w-full bg-blue-300 p-2 rounded-lg text-white hover:bg-blue-400'>Thanh toán ngay</button>
+          </StripeCheckout>
         </div>
       </div>
     </div>

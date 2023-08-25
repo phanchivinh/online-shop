@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { products } from '../assets/image'
 import { BsCartPlus } from 'react-icons/bs'
 import { useLocation } from 'react-router-dom'
 import { publicRequest } from '../requestMethod'
@@ -14,8 +13,11 @@ const Product = () => {
   const [colorList, setColorList] = useState([])
   const [sizeList, setSizeList] = useState([])
   const [product, setProduct] = useState({})
+  const [stockAmount, setStockAmount] = useState(0)
   const [productDetails, setProductDetails] = useState([])
-  const [selectedColor, setSelectedColor] = useState("")
+  const [selectedColor, setSelectedColor] = useState(null)
+  const [selectedSize, setSelectedSize] = useState("")
+  const [addCartMessage, setAddCartMessage] = useState("")
   const dispatch = useDispatch();
   const location = useLocation();
   const id = location.pathname.split("/")[2]
@@ -47,9 +49,36 @@ const Product = () => {
     setColorList(uniqueColors);
   }, [productDetails]);
 
+  useEffect(() => {
+    const filteredDetails = productDetails.filter(detail => {
+      return detail.color_code === colorList[selectedColor]
+    })
+    let sizes = []
+    filteredDetails.forEach(detail => {
+      sizes.push(detail.size_name)
+    })
+    setSizeList(sizes)
+  }, [colorList, selectedColor, productDetails])
+
   const handleCartAdd = () => {
-    dispatch(addProduct({ ...product, quantity })) //color, size
+    if (selectedColor < 0 || selectedSize === '') {
+      setAddCartMessage("* Vui lòng chọn size hoặc kích cỡ sản phẩm")
+      return
+    }
+
+    const selectedProduct = productDetails.find(detail => {
+      return (detail.color_code === colorList[selectedColor] && detail.size_name === selectedSize)
+    })
+    dispatch(addProduct({ product: selectedProduct, quantity, price: selectedProduct.product_price, image: imageList[0] })) //color, size
+    // const res =
   }
+
+  useEffect(() => {
+    const filteredDetail = productDetails.filter(detail => {
+      return (detail.color_code === colorList[selectedColor] && detail.size_name === selectedSize)
+    })
+    setStockAmount(filteredDetail[0]?.stock_amount || 0)
+  }, [selectedSize, colorList, productDetails, selectedColor])
 
   /******************** */
   return (
@@ -89,19 +118,19 @@ const Product = () => {
           <button className='border border-black px-3 font-bold hover:bg-blue-200' onClick={() => setQuantity(prev => prev + 1)}>+</button>
         </div>
         {/* Size options */}
-        <div className='flex gap-4 mb-10'>
+        <div className='flex gap-4 mb-4'>
           <h2 className='text-xl font-semibold'>Kích cỡ:</h2>
-          <select className='border border-black rounded-md bg-blue-200 w-56'>
+          <select className='border border-black rounded-md bg-blue-200 w-56' onChange={(event => setSelectedSize(event.target.value))}>
             <option>Chọn một tùy chọn</option>
-            <option>XS</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-            <option>XXL</option>
+            {
+              sizeList.map(size => <option key={`option-${size}`} value={size}>{size}</option>)
+            }
           </select>
         </div>
-
+        <div className='mb-10'>
+          {stockAmount > 0 && (<span>Còn lại: {stockAmount}</span>)}
+        </div>
+        <p className='mb-2 text-red-600'>{addCartMessage}</p>
         <button onClick={handleCartAdd} className='flex gap-4 items-center justify-center p-3 text-white font-bold w-full bg-blue-500 cursor-pointer hover:bg-blue-600'>
           <BsCartPlus /> THÊM VÀO GIỎ HÀNG
         </button>

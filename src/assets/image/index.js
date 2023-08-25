@@ -19,8 +19,18 @@ import item72 from './item7-2.jpg'
 import item81 from './item8-1.jpg'
 import item82 from './item8-2.jpg'
 
+import logo from './logo.png'
+import emptyCartImg from './empty-cart.png'
 import menBanner from './men-banner.png'
 import womenBanner from './women-banner.png'
+
+export const images = {
+  logo: logo
+}
+
+export const illustrationImg = {
+  emptyCart: emptyCartImg,
+};
 
 export const sliderImages = [
   home1,

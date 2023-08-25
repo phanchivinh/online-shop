@@ -10,6 +10,7 @@ import CartPage from "./pages/CartPage";
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Announcement from "./components/Announcement";
+import { useSelector } from "react-redux";
 
 
 const Layout = () => {
