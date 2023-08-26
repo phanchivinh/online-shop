@@ -15,7 +15,7 @@ const Card = ({ item }) => {
         {/* image */}
         <div className=" w-full h-[180px] min-[525px]:h-[240px] mb-1 overflow-hidden relative group">
           <img
-            src={item.product_image || IMAGE_URL}
+            src={item?.product_images[0]?.image_url || IMAGE_URL}
             alt={`${item.product_name}`}
             className='object-cover w-full'
           />

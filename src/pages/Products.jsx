@@ -94,7 +94,7 @@ const Products = () => {
       setProducts(filteredProducts)
       setCurrentPage(1)
     }
-  }, [filters])
+  }, [filters, apiProduct])
 
   useEffect(() => {
     setTotalPages(Math.ceil(products.length / NUMBER_OF_ITEMS))
@@ -236,11 +236,14 @@ const Products = () => {
         </div>
 
         {/* <List category={category} filters={filters} sort={sort} /> */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
-          {currentProducts.map((item) => (
-            <Card item={item} key={item.product_id} />
-          ))}
-        </div>
+        {
+          !!currentProducts && (<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
+            {currentProducts.map((item) => (
+              <Card item={item} key={item.product_id} />
+            ))}
+          </div>)
+        }
+
 
         <div className='flex justify-center'>
           <Pagination count={totalPages} page={currentPage} onChange={handlePageNumberChange} color='primary' />

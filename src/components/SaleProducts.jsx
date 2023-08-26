@@ -33,7 +33,7 @@ const SaleProducts = () => {
       <div className="flex flex-col justify-center items-center mb-12">
         <h2 className="text-lg sm:text-2xl text-white font-bold mt-8">SẢN PHẨM KHUYẾN MÃI</h2>
         {/* Box countdown */}
-        <CountdownBox />
+        {/* <CountdownBox /> */}
       </div>
       {/* product list */}
       <div className="mx-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-5 md:gap-12">
