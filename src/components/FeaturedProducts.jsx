@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const fetchAPI = async () => {
   try {
-    const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
+    const res = await axios.get('https://shopping-back-end.minhtriet.dev/api/v1/products/').then(
       (res) => res.data
     )
     return res;
