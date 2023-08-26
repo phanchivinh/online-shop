@@ -5,11 +5,11 @@ import axios from 'axios';
 
 const fetchAPI = async () => {
   try {
-    // const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
-    //   (res) => res.data
-    // )
-    // return res;
-    return productData
+    const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
+      (res) => res.data
+    )
+    return res;
+
   } catch (error) {
     console.log(error);
   }
@@ -40,11 +40,11 @@ const FeaturedProducts = () => {
         ))}
       </div>
 
-      <div className='flex justify-center items-center'>
+      {/* <div className='flex justify-center items-center'>
         <button className='flex mb-2 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg'>
           Xem tất cả  SẢN PHẨM  NỔI BẬT
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -6,11 +6,10 @@ import axios from 'axios';
 
 const fetchAPI = async () => {
   try {
-    // const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
-    //   (res) => res.data
-    // )
-    // return res;
-    return productData
+    const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
+      (res) => res.data
+    )
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -23,7 +22,7 @@ const SaleProducts = () => {
     // Get products:
     const getProducts = async () => {
       const res = await fetchAPI()
-      setProducts(res.data.products.slice(0, 10))
+      setProducts(res.data.products.slice(10, 20))
     }
 
     getProducts()
