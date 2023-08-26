@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa'
 import { Autocomplete, TextField } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { publicRequest } from '../requestMethod'
+import { loginSuccess } from '../redux/authRedux'
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+
   const [errorMessage, setErrorMessage] = useState("")
   const [email, setEmail] = useState("test")
   const [password, setPassword] = useState("")
@@ -16,11 +23,6 @@ const Register = () => {
   const [selectedWard, setSelectedWard] = useState("")
   const [houseNumber, setHouseNumber] = useState("")
 
-
-  // let address = `${houseNumber ? `${houseNumber},` : ""}
-  // ${selectedWard ? `${selectedWard},` : ""}
-  // ${selectedDistrict ? `${selectedDistrict},` : ""}
-  // ${selectedProvince || ""}`
 
   // Address Options
   const [provinceOptions, setProvinceOptions] = useState([])
@@ -41,19 +43,32 @@ const Register = () => {
         "phone_number": phoneNumber
       }).then(res => {
         if (!res.data.success) {
-          const resMessage = res.data.message;
-          //Remove first word of message ("usrPhnNo Hãy nhập số điện thoại hợp lệ")
-          const message = resMessage.substr(resMessage.indexOf(" ") + 1)
-          setErrorMessage(message)
+          setErrorMessage(res.data.message)
           return
         }
-        //TODO - handle success
-
+        handleSignIn(email, password)
       })
     } catch (err) {
       console.log(err)
     }
   }
+
+  const handleSignIn = async ({ successEmail, successPassword }) => {
+    try {
+      const response = await publicRequest.post('auth/user/sign-in', {
+        successEmail,
+        successPassword
+      })
+      dispatch(loginSuccess(response.data.data))
+      navigate("/")
+    } catch (error) {
+      console.error('Đăng nhập thất bại: ', error);
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/")
+  }, [isAuthenticated, navigate])
 
   //useEffect to fetch Provinces
   useEffect(() => {

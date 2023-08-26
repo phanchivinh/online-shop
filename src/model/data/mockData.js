@@ -92,6 +92,173 @@ export const productDetail = {
   ]
 }
 
+export const searchResult = {
+  "success": true,
+  "message": "",
+  "data": {
+    "suggestions": [
+      "ÁO THUN OVERSIZED *5AS ART*",
+      "ÁO THUN *ANGEL* TIE DYE",
+      "ÁO THUN *LOVE PEACE* TIE DYE",
+      "ÁO THUN OVERSIZED *SKULL*",
+      "ÁO THUN OVERSIZED *RETRO 9AS*",
+      "ÁO THUN OVERSIZED *AS CLOUD*",
+      "ÁO THUN OVERSIZED *WATER ART*",
+      "ÁO THUN OVERSIZED *7AS ART*",
+      "ÁO THUN OVERSIZED *AS FLOWER*",
+      "ÁO THUN OVERSIZED *7AS OVP*",
+      "ÁO THUN OVERSIZED *SKY ROSE*",
+      "ÁO THUN OVERSIZED *RETRO LOGO*",
+      "ÁO THUN OVERSIZED *BBSG AS LOGO*",
+      "ÁO THUN OVERSIZED *PUBLIC DOMAIN*",
+      "ÁO THUN OVERSIZED *SILENT AS*",
+      "ÁO THUN *ANGEL XXII*",
+      "ÁO THUN DÀI TAY *BOARD GAME*",
+      "ÁO THUN DÀI TAY *RETRO LOGO*",
+      "ÁO THUN DÀI TAY *CLOUD*",
+      "ÁO THUN DÀI TAY *GOLD ART*",
+      "ÁO THUN DÀI TAY *SIMON AS*",
+      "ÁO THUN DÀI TAY *DEATH CHRIST*",
+      "ÁO THUN OVERSIZED *WATER OVP*"
+    ]
+  }
+}
+
+export const categories = [
+  {
+    "category_id": 1,
+    "category_name": "TOPS",
+    "category_alias_name": "tops",
+    "category_parent": null
+  },
+  {
+    "category_id": 2,
+    "category_name": "BOTTOMS",
+    "category_alias_name": "bottoms",
+    "category_parent": null
+  },
+  {
+    "category_id": 3,
+    "category_name": "ACCESSORIES",
+    "category_alias_name": "accessories",
+    "category_parent": null
+  },
+  {
+    "category_id": 4,
+    "category_name": "POLOS",
+    "category_alias_name": "polos",
+    "category_parent": null
+  },
+  {
+    "category_id": 5,
+    "category_name": "HEADWEAR",
+    "category_alias_name": "headwear",
+    "category_parent": 3
+  },
+  {
+    "category_id": 6,
+    "category_name": "MASKS",
+    "category_alias_name": "masks",
+    "category_parent": 3
+  },
+  {
+    "category_id": 7,
+    "category_name": "PANTS",
+    "category_alias_name": "pants",
+    "category_parent": 2
+  },
+  {
+    "category_id": 8,
+    "category_name": "TEES",
+    "category_alias_name": "tees",
+    "category_parent": 1
+  },
+  {
+    "category_id": 9,
+    "category_name": "SHIRTS",
+    "category_alias_name": "shirts",
+    "category_parent": 1
+  },
+  {
+    "category_id": 10,
+    "category_name": "SWEATSHIRT",
+    "category_alias_name": "sweatshirt",
+    "category_parent": 1
+  },
+  {
+    "category_id": 11,
+    "category_name": "DENIM",
+    "category_alias_name": "denim",
+    "category_parent": 1
+  },
+  // {
+  //   "category_id": 12,
+  //   "category_name": "HOODIES",
+  //   "category_alias_name": "hoodies",
+  //   "category_parent": 10
+  // },
+  // {
+  //   "category_id": 13,
+  //   "category_name": "FLANNEL",
+  //   "category_alias_name": "flannel",
+  //   "category_parent": 9
+  // },
+  // {
+  //   "category_id": 14,
+  //   "category_name": "ARTWORK TEES",
+  //   "category_alias_name": "artwork-tees",
+  //   "category_parent": 8
+  // },
+  // {
+  //   "category_id": 15,
+  //   "category_name": "LONG SLEEVES",
+  //   "category_alias_name": "long-sleeves",
+  //   "category_parent": 8
+  // },
+  {
+    "category_id": 16,
+    "category_name": "MEN",
+    "category_alias_name": "men",
+    "category_parent": null
+  },
+  {
+    "category_id": 17,
+    "category_name": "WOMAN",
+    "category_alias_name": "woman",
+    "category_parent": null
+  },
+  {
+    "category_id": 21,
+    "category_name": "OUTERWEAR",
+    "category_alias_name": "outerwear",
+    "category_parent": 1
+  },
+  {
+    "category_id": 22,
+    "category_name": "TRACKSUIT",
+    "category_alias_name": "tracksuit",
+    "category_parent": 1
+  },
+  // {
+  //   "category_id": 23,
+  //   "category_name": "JACKET",
+  //   "category_alias_name": "jacket",
+  //   "category_parent": 22
+  // },
+  {
+    "category_id": 24,
+    "category_name": "SPORTWEAR",
+    "category_alias_name": "sportwear",
+    "category_parent": null
+  },
+  {
+    "category_id": 25,
+    "category_name": "BAGS",
+    "category_alias_name": "bags",
+    "category_parent": null
+  }
+]
+
 export const productData = {
   "success": true,
   "message": "",

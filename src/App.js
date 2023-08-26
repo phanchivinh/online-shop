@@ -11,6 +11,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Announcement from "./components/Announcement";
 import { useSelector } from "react-redux";
+import NotFound from "./pages/NotFound";
 
 
 const Layout = () => {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: '/products/:gender/:page',
+        path: '/products/:category/:page',
         element: <Products />
       },
       {
@@ -55,9 +56,14 @@ const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: '*',
+    element: <NotFound />
+  }
 ])
 
 function App() {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   return (
     <div className="App">
       <RouterProvider router={router} />

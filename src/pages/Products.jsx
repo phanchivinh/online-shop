@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import categoryImg from '../assets/image/category.png'
 import List from '../components/List'
@@ -7,24 +7,14 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { productData } from '../model/data/mockData'
 import Card from '../components/Card'
 import axios from 'axios'
-import { Pagination } from '@mui/material'
+import { Pagination, Select, Option } from '@mui/material'
+import { publicRequest } from '../requestMethod'
 const NUMBER_OF_ITEMS = 20
-
-const fetchAPI = async () => {
-  try {
-    // const res = await axios.get('http://shopping-back-end.minhtriet.dev/api/v1/products/').then(
-    //   (res) => res.data
-    // )
-    // return res;
-    return productData
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const Products = () => {
 
   /*-----------------------*/
+  const [apiProduct, setApiProduct] = useState([])
   const [products, setProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,12 +23,31 @@ const Products = () => {
     setCurrentPage(value);
   }
 
+  const categoryAlias = useParams().category
+  // const urlCurrentPage = useParams().page
+
+  // useEffect(() => {
+  //   setCurrentPage(urlCurrentPage)
+  // }, [urlCurrentPage])
   // Fetch data:
   useEffect(() => {
+
+    const fetchAPI = async () => {
+      try {
+        const res = await publicRequest.post('products/category', {
+          category_alias_name: categoryAlias
+        }).then(res => res.data)
+        return res;
+        // return productData
+      } catch (error) {
+        console.log(error);
+      }
+    };
     // Get products:
     const getProducts = async () => {
       const res = await fetchAPI()
       setProducts(res.data.products)
+      setApiProduct(res.data.products)
       setTotalPages(Math.ceil(res.data.products.length / NUMBER_OF_ITEMS))
     }
 
@@ -56,6 +65,7 @@ const Products = () => {
   const [sidebar, setSidebar] = useState(false)
   const category = useParams().category;
   const [sort, setSort] = useState("newest")
+  // const [costRange, setCostRange] = useState([])
   const [filters, setFilters] = useState({});
 
   const showSidebar = () => setSidebar(!sidebar)
@@ -67,6 +77,28 @@ const Products = () => {
       [event.target.name]: value
     })
   }
+
+  useLayoutEffect(() => {
+    console.log("apiProduct", apiProduct)
+    if (Object.keys(filters).length > 0) {
+      const { size, color } = filters
+      const filteredProducts = apiProduct.filter(product => {
+        const hasDesiredSize = product.product_sizes.some(productSize => productSize.size_name === size);
+        const hasDesiredColor = product.product_colors.some(productColor => productColor.color_name === color);
+        if (!!size && !!color) {
+          return hasDesiredSize && hasDesiredColor;
+        }
+        return hasDesiredSize || hasDesiredColor
+      });
+      console.log("filteredProducts", filteredProducts)
+      setProducts(filteredProducts)
+      setCurrentPage(1)
+    }
+  }, [filters])
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(products.length / NUMBER_OF_ITEMS))
+  }, [products])
   return (
     <div className='flex flex-col sm:flex-row'>
       {/* Filter */}
@@ -76,28 +108,24 @@ const Products = () => {
           <h2 className='font-bold text-lg'>Kích cỡ:</h2>
           <div className='ml-4 mb-4 grid grid-cols-2'>
             <div>
-              <input type='radio' name='size' id='xs' value='xs' onChange={handleFilters} />
+              <input type='radio' name='size' id='xs' value='XS' onChange={handleFilters} />
               <label className='ml-2 text-sm md:text-base' htmlFor='xs'>XS</label>
             </div>
             <div>
-              <input type='radio' name='size' id='s' value='s' onChange={handleFilters} />
+              <input type='radio' name='size' id='s' value='S' onChange={handleFilters} />
               <label className='ml-2 text-sm md:text-base' htmlFor='s'>S</label>
             </div>
             <div>
-              <input type='radio' name='size' id='m' value='m' onChange={handleFilters} />
+              <input type='radio' name='size' id='m' value='M' onChange={handleFilters} />
               <label className='ml-2 text-sm md:text-base' htmlFor='m'>M</label>
             </div>
             <div>
-              <input type='radio' name='size' id='l' value='l' onChange={handleFilters} />
+              <input type='radio' name='size' id='l' value='L' onChange={handleFilters} />
               <label className='ml-2 text-sm md:text-base' htmlFor='l'>L</label>
             </div>
             <div>
-              <input type='radio' name='size' id='xl' value='xl' onChange={handleFilters} />
+              <input type='radio' name='size' id='xl' value='XL' onChange={handleFilters} />
               <label className='ml-2 text-sm md:text-base' htmlFor='xl'>XL</label>
-            </div>
-            <div>
-              <input type='radio' name='size' id='xxl' value='xxl' onChange={handleFilters} />
-              <label className='ml-2 text-sm md:text-base' htmlFor='xxl'>XXL</label>
             </div>
           </div>
         </div>
@@ -106,51 +134,51 @@ const Products = () => {
           <h2 className='font-bold text-lg'>Màu sắc:</h2>
           <div className='ml-4 mb-4 grid grid-cols-2'>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='trang' value='trang' />
+              <input onChange={handleFilters} type='radio' name='color' id='trang' value='Trắng' />
               <label className='ml-2 text-sm md:text-base' htmlFor='trang'>Trắng</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='xam' value='xam' />
+              <input onChange={handleFilters} type='radio' name='color' id='xam' value='Xám' />
               <label className='ml-2 text-sm md:text-base' htmlFor='xam'>Xám</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='den' value='den' />
+              <input onChange={handleFilters} type='radio' name='color' id='den' value='Đen' />
               <label className='ml-2 text-sm md:text-base' htmlFor='den'>Đen</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='hong' value='hong' />
+              <input onChange={handleFilters} type='radio' name='color' id='hong' value='Hồng' />
               <label className='ml-2 text-sm md:text-base' htmlFor='hong'>Hồng</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='do' value='do' />
+              <input onChange={handleFilters} type='radio' name='color' id='do' value='Đỏ' />
               <label className='ml-2 text-sm md:text-base' htmlFor='do'>Đỏ</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='be' value='be' />
+              <input onChange={handleFilters} type='radio' name='color' id='be' value='Màu be' />
               <label className='ml-2 text-sm md:text-base' htmlFor='be'>Màu be</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='nau' value='nau' />
+              <input onChange={handleFilters} type='radio' name='color' id='nau' value='Nâu' />
               <label className='ml-2 text-sm md:text-base' htmlFor='nau'>Nâu</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='vang' value='vang' />
+              <input onChange={handleFilters} type='radio' name='color' id='vang' value='Vàng' />
               <label className='ml-2 text-sm md:text-base' htmlFor='vang'>Vàng</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='xanh-la' value='xanh-la' />
+              <input onChange={handleFilters} type='radio' name='color' id='xanh-la' value='Xanh lá' />
               <label className='ml-2 text-sm md:text-base' htmlFor='xanh-la'>Xanh lá</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='trang' value='trang' />
+              <input onChange={handleFilters} type='radio' name='color' id='trang' value='Trắng' />
               <label className='ml-2 text-sm md:text-base' htmlFor='trang'>Trắng</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='xanh-lam' value='xanh-lam' />
+              <input onChange={handleFilters} type='radio' name='color' id='xanh-lam' value='Xanh lam' />
               <label className='ml-2 text-sm md:text-base' htmlFor='xanh-lam'>Xanh lam</label>
             </div>
             <div>
-              <input onChange={handleFilters} type='radio' name='color' id='tim' value='tim' />
+              <input onChange={handleFilters} type='radio' name='color' id='tim' value='Tím' />
               <label className='ml-2 text-sm md:text-base' htmlFor='tim'>Tím</label>
             </div>
           </div>
@@ -173,13 +201,22 @@ const Products = () => {
             </div>
           </div>
         </div>
+        {/* Cost Range */}
+        {/* <div>
+          <Select placeholder='Chọn giá tiền'>
+            <Option value= >Dưới 500.000đ</Option>
+            <Option value= >Từ 500.000 - 1.000.000đ</Option>
+            <Option value= >Từ</Option>
+            <Option value= >Dưới 500.000đ</Option>
+          </Select>
+        </div> */}
       </div>
 
       {/* Mobile filter */}
-      {sidebar && <div className='fixed md:hidden w-screen h-screen top-0 left-0 bg-black/70 z-10' />}
+      {/* {sidebar && <div className='fixed md:hidden w-screen h-screen top-0 left-0 bg-black/70 z-10' />}
       <div className={`fixed md:hidden z-20 w-[60vw] sm:w-[380px] h-screen bg-white top-0 duration-300 ease-linear ${sidebar ? 'left-0' : 'left-[-110%]'}`}>
         <AiOutlineClose className='absolute text-2xl right-3 top-3 cursor-pointer' onClick={showSidebar} />
-      </div>
+      </div> */}
       {/* Products */}
       <div className='sm:flex-[3] py-8 pr-4'>
         <img className='w-full h-52 object-cover mb-6' src={categoryImg} alt='category' />

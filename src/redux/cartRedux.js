@@ -12,7 +12,10 @@ const cartSlice = createSlice({
       state.totalQuantity += action.payload.quantity;
       state.products.push({ ...action.payload.product, product_image: action.payload.image })
       state.totalPrice += (action.payload.price * action.payload.quantity)
+    },
+    removeProduct: (state, action) => {
     }
+
   }
 })
 

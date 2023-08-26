@@ -26,11 +26,8 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        // const resData = await publicRequest.get("products/detail/" + id).then(res => res.data)
-        // debugger
-        // setProduct(resData.data.product)
-        const productDetails = productDetail
-        // setColorList(["#0000FF"])
+        const resData = await publicRequest.get("products/detail/" + id).then(res => res.data)
+        const productDetails = resData.data
         setImageList(productDetails.images)
         setProductDetails(productDetails.products)
         setProduct(productDetails.products[0])

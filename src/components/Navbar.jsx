@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import React, { useState, useRef, useLayoutEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import Cart from './Cart'
 import { BsSearch, BsCartPlus } from 'react-icons/bs'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
@@ -9,17 +9,50 @@ import { FaUserPlus } from 'react-icons/fa'
 import { Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import { TfiSettings } from 'react-icons/tfi'
 import { FiLogOut } from 'react-icons/fi'
+import { categories } from '../model/data/mockData'
+import { publicRequest } from '../requestMethod'
+import { logout } from '../redux/authRedux'
+import NavigationList from './NavigationList'
+import SearchField from './SearchField'
+
+function buildCategoryTree(categories, parent = null) {
+  const categoryTree = [];
+
+  for (const category of categories) {
+    if (category.category_parent === parent) {
+      const subcategories = buildCategoryTree(categories, category.category_id);
+
+      if (subcategories.length > 0) {
+        category.subcategories = subcategories;
+      }
+
+      categoryTree.push(category);
+    }
+  }
+
+  return categoryTree;
+}
 
 const Navbar = () => {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartTotalItems = useSelector(state => state.cart.totalQuantity)
   const [sidebar, setSidebar] = useState(false)
   // const location = useLocation()
   const [anchorElMen, setAnchorElMen] = React.useState(null);
   const [anchorElWomen, setAnchorElWomen] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [categoryTree, setCategoryTree] = React.useState();
   const openMen = Boolean(anchorElMen);
   const openWomen = Boolean(anchorElWomen);
   const openUser = Boolean(anchorElUser);
+
+  useLayoutEffect(() => {
+    const categoryTree = buildCategoryTree(categories);
+    // console.log(JSON.stringify(categoryTree, null, 2));
+    setCategoryTree(categoryTree)
+  }, [])
 
   const handleMenClick = (event) => {
     setAnchorElMen(event.currentTarget);
@@ -31,6 +64,27 @@ const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
+  const onSignOut = async (event) => {
+    try {
+      // const accessToken = localStorage.getItem('accessToken');
+      // const response = await publicRequest('auth/user/sign-out', {}, {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   }
+      // })
+      // debugger
+      // if (response.status === 200) {
+      //   dispatch(logout());
+      //   navigate("/")
+      // }
+
+      dispatch(logout());
+      navigate("/login")
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const handleMenClose = () => {
     setAnchorElMen(null);
   };
@@ -40,7 +94,6 @@ const Navbar = () => {
   const handleUserClose = () => {
     setAnchorElUser(null);
   };
-
 
   const cartRef = useRef()
 
@@ -61,14 +114,15 @@ const Navbar = () => {
               T
             </span>
           </Link>
-          <ul className='hidden md:flex items-center'>
-            <li className='group/item mx-2 relative text-black'>
+          {categoryTree && <NavigationList categoryTree={categoryTree} />}
+          {/* <ul className='hidden md:flex items-center'> */}
+          {/* <li className='group/item mx-2 relative text-black'>
               <Button id="men-menu-button" aria-controls={openMen ? 'men-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={openMen ? 'true' : undefined}
                 onClick={handleMenClick}
               >
-                <p className='text-black font-bold text-xl'>Nam</p>
+                <p className='text-black font-bold text-xl flex items-center'><AiOutlineMenu className='mr-1' /> Danh mục sản phẩm</p>
               </Button>
               <Menu id='men-menu'
                 aria-labelledby="men-menu-button"
@@ -84,12 +138,15 @@ const Navbar = () => {
                   horizontal: 'left',
                 }}
               >
+                {
+                  categories.map(cat => <MenuItem onClick={(handleMenClick)}>{cat.category_alias_name}</MenuItem>)
+                }
                 <MenuItem onClick={handleMenClose}>Áo thun</MenuItem>
                 <MenuItem onClick={handleMenClose}>Áo sơ-mi</MenuItem>
                 <MenuItem onClick={handleMenClose}>Áo bóng đá</MenuItem>
               </Menu>
-            </li>
-            <li className='group/item mx-2 relative'>
+            </li> */}
+          {/* <li className='group/item mx-2 relative'>
               <Button id="women-menu-button" aria-controls={openWomen ? 'women-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={openWomen ? 'true' : undefined}
@@ -115,63 +172,66 @@ const Navbar = () => {
                 <MenuItem onClick={handleWomenClose}>Áo thun nữ</MenuItem>
                 <MenuItem onClick={handleWomenClose}>Váy</MenuItem>
               </Menu>
-            </li>
-            <li className='group/item mx-2 relative'>
-              <Link to='' className='font-bold text-xl hover:opacity-70'>ABOUT US</Link>
-            </li>
-          </ul>
+            </li> */}
+
+          <Link to='' className='font-bold text-blue-500 hover:opacity-70'>ABOUT US</Link>
+
+
         </div>
         {/* Right */}
         <div className='flex'>
           {/* search box */}
-          <div className='hidden md:flex border-2 border-blue-300 rounded-md overflow-hidden'>
-            <input type='text' placeholder='Tìm kiếm...' className='outline-none px-1 border-r-2 border-r-blue-300' />
-            <div className='w-full h-full p-2 text-2xl hover:bg-blue-500 hover:text-white duration-150 cursor-pointer'><BsSearch /></div>
-          </div>
+          <SearchField />
           {/* User */}
           {/* {location.state.fullName && <span>{location.state.fullName}</span>} */}
-          <span className='flex justify-center items-center'>
-            <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
-              ĐĂNG NHẬP
-            </Link>
-            <Link to='/register' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
-              ĐĂNG KÝ
-            </Link>
-          </span>
-          {/* <div>
-            <Tooltip title="Account Setting">
-              <IconButton
-                onClick={handleUserClick}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={openUser ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openUser ? 'true' : undefined}
-              >
-                <Avatar />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              anchorEl={anchorElUser}
-              id="account-menu"
-              open={openUser}
-              onClose={handleUserClose}
-              onClick={handleUserClose}
-            >
-              <MenuItem onClick={handleUserClose}>
-                <ListItemIcon>
-                  <TfiSettings />
-                </ListItemIcon>
-                Tài khoản
-              </MenuItem>
-              <MenuItem onClick={handleUserClose}>
-                <ListItemIcon>
-                  <FiLogOut />
-                </ListItemIcon>
-                Đăng xuất
-              </MenuItem>
-            </Menu>
-          </div> */}
+          {
+            isAuthenticated
+              ? (<div>
+                <Tooltip title="Account Setting">
+                  <IconButton
+                    onClick={handleUserClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={openUser ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openUser ? 'true' : undefined}
+                  >
+                    <Avatar />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  anchorEl={anchorElUser}
+                  id="account-menu"
+                  open={openUser}
+                  onClose={handleUserClose}
+                  onClick={handleUserClose}
+                >
+                  <MenuItem onClick={handleUserClose}>
+                    <ListItemIcon>
+                      <TfiSettings />
+                    </ListItemIcon>
+                    Tài khoản
+                  </MenuItem>
+                  <MenuItem onClick={(event) => onSignOut(event)}>
+                    <ListItemIcon>
+                      <FiLogOut />
+                    </ListItemIcon>
+                    Đăng xuất
+                  </MenuItem>
+                </Menu>
+              </div>)
+
+              : (
+                <span className='flex justify-center items-center'>
+                  <Link to='/login' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+                    ĐĂNG NHẬP
+                  </Link>
+                  <Link to='/register' className='hidden md:block m-2 text-sm hover:text-blue-500 cursor-pointer'>
+                    ĐĂNG KÝ
+                  </Link>
+                </span>
+              )
+          }
 
           {/* Cart */}
           <div className='m-2 text-2xl relative hover:text-blue-500 cursor-pointer' onClick={() => cartRef.current.setOpenCart(true)}>

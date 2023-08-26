@@ -1,21 +1,36 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaFacebookF, FaGooglePlusG } from 'react-icons/fa'
 import axios from 'axios'
-import { login } from '../redux/apiCall'
 import { useDispatch, useSelector } from 'react-redux'
+import { publicRequest } from '../requestMethod'
+import { loginSuccess } from '../redux/authRedux'
 
 const Login = () => {
-
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector(state => state.user)
+  const navigate = useNavigate()
 
   const onSignIn = async (e) => {
     e.preventDefault();
-    login(dispatch, { email, password })
+    try {
+      const response = await publicRequest.post('auth/user/sign-in', {
+        email,
+        password
+      })
+      dispatch(loginSuccess(response.data.data))
+      navigate("/")
+    } catch (error) {
+      console.error('Đăng nhập thất bại: ', error);
+    }
   }
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/")
+  }, [isAuthenticated, navigate])
+
   return (
     <div className='flex justify-center pt-6'>
       <form>
@@ -44,13 +59,11 @@ const Login = () => {
         {/* submit button */}
         <div className='flex flex-col gap-4 items-center mb-10'>
           <button
-            disabled={isFetching}
             type='submit'
             onClick={(e) => onSignIn(e)}
             className='w-full min-[425px]:w-48 border-2 border-blue-400 text-blue-400 p-2 font-bold hover:bg-blue-400 hover:text-white duration-300 ease-linear uppercase disabled:cursor-not-allowed'>
             Đăng nhập
           </button>
-          {error && <p className='text-red-600'>Email hoặc mật khẩu không chính xác</p>}
           <Link to='/' className='font-bold opacity-80 hover:opacity-100 hover:underline'>Quên mật khẩu?</Link>
           <span>Bạn chưa có tài khoản? Đăng ký <Link to='/register' className='underline hover:text-blue-400'>tại đây.</Link></span>
         </div>

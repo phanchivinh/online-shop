@@ -13,6 +13,10 @@ const Cart = (props, cartRef) => {
     setOpenCart
   }))
 
+  const handleRemove = () => {
+    console.error("Cannot find product_id")
+  }
+
   return (
     <div className={`w-screen min-[425px]:w-96 p-5 fixed top-0 h-screen bg-white shadow-xl overflow-y-scroll z-50 duration-300 ease-linear ${openCart ? 'right-0' : 'right-[-110%]'}`}>
       <AiOutlineArrowRight className='text-xl cursor-pointer' onClick={() => setOpenCart(false)} />
@@ -37,7 +41,7 @@ const Cart = (props, cartRef) => {
                 })}</span>
               </div>
             </div>
-            <AiOutlineDelete className='text-4xl text-red-600 cursor-pointer' />
+            <button onClick={handleRemove}><AiOutlineDelete className='text-4xl text-red-600 cursor-pointer' /></button>
           </div>
         )))
       }
