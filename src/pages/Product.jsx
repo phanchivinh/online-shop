@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom'
 import { publicRequest } from '../requestMethod'
 import { addProduct } from '../redux/cartRedux'
 import { productDetail } from '../model/data/mockData';
+import AddCartPopup from '../components/AddCartPopup/AddCartPopup';
+import ImageHoverZoom from '../components/ImageHoverZoom/ImageHoverZoom';
 
 const Product = () => {
   const [quantity, setQuantity] = useState(1)
@@ -17,7 +19,9 @@ const Product = () => {
   const [productDetails, setProductDetails] = useState([])
   const [selectedColor, setSelectedColor] = useState(null)
   const [selectedSize, setSelectedSize] = useState("")
+  // Add cart states
   const [addCartMessage, setAddCartMessage] = useState("")
+  const [isAddSuccess, setIsAddSuccess] = useState()
   const dispatch = useDispatch();
   const location = useLocation();
   const id = location.pathname.split("/")[2]
@@ -26,11 +30,11 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const resData = await publicRequest.get("products/detail/" + id).then(res => res.data)
-        const productDetails = resData.data
-        setImageList(productDetails.images)
-        setProductDetails(productDetails.products)
-        setProduct(productDetails.products[0])
+        const resData = await publicRequest.get("/v1/products/detail/" + id).then(res => res.data)
+        const productDetailData = resData.data
+        setImageList(productDetailData.images)
+        setProductDetails(productDetailData.products)
+        setProduct(productDetailData.products[0])
       } catch (error) {
         console.log(error)
       }
@@ -60,14 +64,23 @@ const Product = () => {
   const handleCartAdd = () => {
     if (selectedColor < 0 || selectedSize === '') {
       setAddCartMessage("* Vui lòng chọn size hoặc kích cỡ sản phẩm")
+      setIsAddSuccess(false)
       return
     }
+    try {
+      const selectedProduct = productDetails.find(detail => {
+        return (detail.color_code === colorList[selectedColor] && detail.size_name === selectedSize)
+      })
+      dispatch(addProduct({ product: selectedProduct, quantity, price: selectedProduct.product_price, image: imageList[0] })) //color, size
+      setAddCartMessage("Thêm vào giỏ hàng thành công!")
+      setIsAddSuccess(true)
+    } catch (error) {
+      setAddCartMessage("Thêm vào giỏ hàng thất bại.")
+      setIsAddSuccess(false)
+    }
 
-    const selectedProduct = productDetails.find(detail => {
-      return (detail.color_code === colorList[selectedColor] && detail.size_name === selectedSize)
-    })
-    dispatch(addProduct({ product: selectedProduct, quantity, price: selectedProduct.product_price, image: imageList[0] })) //color, size
     // const res =
+    return
   }
 
   useEffect(() => {
@@ -91,8 +104,9 @@ const Product = () => {
           }
         </div>
         {/* Main image */}
-        <div className='flex-[5]'>
-          <img className='w-full max-h-[800px] object-cover' src={imageList[selectedImg]} alt="view-product" />
+        <div className='flex-[5] overflow-hidden'>
+          {/* <ImageHoverZoom imgPath={imageList[selectedImg]} /> */}
+          <img className='w-full max-h-[800px] object-cover hover:scale-125' src={imageList[selectedImg]} alt="view-product" />
         </div>
       </div>
       {/* Right */}
@@ -127,11 +141,13 @@ const Product = () => {
         <div className='mb-10'>
           {stockAmount > 0 && (<span>Còn lại: {stockAmount}</span>)}
         </div>
-        <p className='mb-2 text-red-600'>{addCartMessage}</p>
         <button onClick={handleCartAdd} className='flex gap-4 items-center justify-center p-3 text-white font-bold w-full bg-blue-500 cursor-pointer hover:bg-blue-600'>
           <BsCartPlus /> THÊM VÀO GIỎ HÀNG
         </button>
       </div>
+      {
+        isAddSuccess && <AddCartPopup message={addCartMessage} isSuccess={isAddSuccess} />
+      }
     </div>
   )
 }

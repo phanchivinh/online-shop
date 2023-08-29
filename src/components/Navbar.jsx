@@ -67,7 +67,7 @@ const Navbar = () => {
   const onSignOut = async (event) => {
     try {
       // const accessToken = localStorage.getItem('accessToken');
-      // const response = await publicRequest('auth/user/sign-out', {}, {
+      // const response = await publicRequest('v1/auth/user/sign-out', {}, {
       //   headers: {
       //     Authorization: `Bearer ${accessToken}`,
       //   }

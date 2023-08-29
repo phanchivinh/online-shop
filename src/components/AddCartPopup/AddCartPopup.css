@@ -1,0 +1,25 @@
+.popup {
+  display: none;
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  z-index: 9999;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.popup.visible {
+  display: block;
+  opacity: 1;
+}
+
+.popup.success {
+  background-color: green;
+}
+
+.popup.error {
+  background-color: red;
+}

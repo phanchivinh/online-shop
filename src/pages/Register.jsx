@@ -55,7 +55,7 @@ const Register = () => {
 
   const handleSignIn = async ({ successEmail, successPassword }) => {
     try {
-      const response = await publicRequest.post('auth/user/sign-in', {
+      const response = await publicRequest.post('/v1/auth/user/sign-in', {
         successEmail,
         successPassword
       })

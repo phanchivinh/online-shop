@@ -16,7 +16,7 @@ const Login = () => {
   const onSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await publicRequest.post('auth/user/sign-in', {
+      const response = await publicRequest.post('/v1/auth/user/sign-in', {
         email,
         password
       })

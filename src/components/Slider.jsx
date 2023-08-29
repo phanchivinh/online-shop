@@ -31,7 +31,7 @@ const Slider = () => {
       {/* Container */}
       <div className='w-[300vw] h-screen flex' style={{ transform: `translateX(-${currentSlide * 100}vw)` }}>
         {sliderImages.map((img, index) => (
-          <Link to='products/men/1'>
+          <Link to='products/men/1' key={`slider-${index}`}>
             <img
               src={img}
               alt='home'

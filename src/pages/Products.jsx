@@ -9,6 +9,7 @@ import Card from '../components/Card'
 import axios from 'axios'
 import { Pagination, Select, Option } from '@mui/material'
 import { publicRequest } from '../requestMethod'
+import ProductListSkeleton from '../components/ProductListSkeleton'
 const NUMBER_OF_ITEMS = 20
 
 const Products = () => {
@@ -19,6 +20,7 @@ const Products = () => {
   const [currentProducts, setCurrentProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const handlePageNumberChange = (event, value) => {
     setCurrentPage(value);
   }
@@ -31,28 +33,24 @@ const Products = () => {
   // }, [urlCurrentPage])
   // Fetch data:
   useEffect(() => {
-
-    const fetchAPI = async () => {
-      try {
-        const res = await publicRequest.post('products/category', {
-          category_alias_name: categoryAlias
-        }).then(res => res.data)
-        return res;
-        // return productData
-      } catch (error) {
-        console.log(error);
-      }
-    };
     // Get products:
     const getProducts = async () => {
-      const res = await fetchAPI()
-      setProducts(res.data.products)
-      setApiProduct(res.data.products)
-      setTotalPages(Math.ceil(res.data.products.length / NUMBER_OF_ITEMS))
-    }
+      try {
+        setIsLoading(true)
+        const res = await publicRequest.post('/v2/products/category', {
+          category_alias_name: categoryAlias
+        }).then(res => res.data)
+        setProducts(res.data.products)
+        setApiProduct(res.data.products)
+        setTotalPages(Math.ceil(res.data.products.length / NUMBER_OF_ITEMS))
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error)
+      }
 
+    }
     getProducts()
-  }, []);
+  }, [categoryAlias]);
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * NUMBER_OF_ITEMS;
@@ -78,8 +76,8 @@ const Products = () => {
     })
   }
 
+
   useLayoutEffect(() => {
-    console.log("apiProduct", apiProduct)
     if (Object.keys(filters).length > 0) {
       const { size, color } = filters
       const filteredProducts = apiProduct.filter(product => {
@@ -99,6 +97,7 @@ const Products = () => {
   useEffect(() => {
     setTotalPages(Math.ceil(products.length / NUMBER_OF_ITEMS))
   }, [products])
+
   return (
     <div className='flex flex-col sm:flex-row'>
       {/* Filter */}
@@ -211,16 +210,7 @@ const Products = () => {
           </Select>
         </div> */}
       </div>
-
-      {/* Mobile filter */}
-      {/* {sidebar && <div className='fixed md:hidden w-screen h-screen top-0 left-0 bg-black/70 z-10' />}
-      <div className={`fixed md:hidden z-20 w-[60vw] sm:w-[380px] h-screen bg-white top-0 duration-300 ease-linear ${sidebar ? 'left-0' : 'left-[-110%]'}`}>
-        <AiOutlineClose className='absolute text-2xl right-3 top-3 cursor-pointer' onClick={showSidebar} />
-      </div> */}
-      {/* Products */}
       <div className='sm:flex-[3] py-8 pr-4'>
-        <img className='w-full h-52 object-cover mb-6' src={categoryImg} alt='category' />
-
         <div className='flex sm:hidden flex-col justify-center items-center py-4 border-2 my-8 mx-8'>
           <div className='flex items-center mb-4' onClick={showSidebar}>
             <TbAdjustmentsHorizontal className='text-2xl cursor-pointer' />
@@ -235,9 +225,12 @@ const Products = () => {
           </div>
         </div>
 
+        {/* ----------------------------------Products------------------------------------- */}
+        <ProductListSkeleton loading={isLoading} />
+
         {/* <List category={category} filters={filters} sort={sort} /> */}
         {
-          !!currentProducts && (<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
+          !isLoading && (<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-12">
             {currentProducts.map((item) => (
               <Card item={item} key={item.product_id} />
             ))}
@@ -245,7 +238,7 @@ const Products = () => {
         }
 
 
-        <div className='flex justify-center'>
+        <div className='flex justify-center mt-4'>
           <Pagination count={totalPages} page={currentPage} onChange={handlePageNumberChange} color='primary' />
         </div>
       </div>
