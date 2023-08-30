@@ -57,7 +57,6 @@ const Cart = () => {
                 {/* Details */}
                 <div className='p-5 flex flex-col justify-around'>
                   <span><b>Tên sản phẩm: </b>{item.product_name}</span>
-                  <span><b>ID:</b>{item.product_id}</span>
                   <span><b>CHI TIẾT: </b>{item.product_description}</span>
                   <div><b>Color: </b> {item.color_name}</div>
                   <span><b>Size: </b>{item.size_name}</span>

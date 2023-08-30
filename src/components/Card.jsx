@@ -43,7 +43,7 @@ const Card = ({ item }) => {
         </p>
         {
           item.product_discount_price > 0 && (<p className='text-left text-xl font-bold mb-2 text-red-600'>
-            {item.product_price.toLocaleString('vi-VN', {
+            {item.product_discount_price.toLocaleString('vi-VN', {
               style: 'currency',
               currency: 'VND',
               minimumFractionDigits: 0,
