@@ -1,5 +1,26 @@
 import { products } from '../../assets/image';
 
+export const apiSingleUser = {
+  "success": true,
+  "message": "Lấy thông tin tài khoản thành công",
+  "data": {
+    "user": {
+      "id": "1465c732-da4d-48f6-9b1c-b482130c1818",
+      "first_name": "Triet",
+      "last_name": "Admin",
+      "email": "admin@gmail.com",
+      "phone_number": "0906566970",
+      "address": "",
+      "verify_flag": "Y",
+      "update_user_id": "1465c732-da4d-48f6-9b1c-b482130c1818",
+      "update_date_time": "2023-07-19 00:36:16.521792",
+      "create_user_id": "1465c732-da4d-48f6-9b1c-b482130c1818",
+      "create_date_time": "2023-07-19 00:36:16.521792",
+      "delete_flag": "N"
+    }
+  }
+}
+
 export const productDetail = {
   "images": [
     "https://res.cloudinary.com/dnatymzuo/image/upload/v1692091809/shopping-web/ao-so-mi-oxford-0.jpg",

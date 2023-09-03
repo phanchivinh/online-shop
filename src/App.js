@@ -6,6 +6,7 @@ import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CartPage from "./pages/CartPage";
+import UserInfo from "./pages/UserInfo";
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path: '/userInfo',
+        element: <UserInfo />
       },
       {
         path: '/products/:category/:page',

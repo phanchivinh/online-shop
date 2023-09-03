@@ -206,7 +206,7 @@ const Navbar = () => {
                   onClose={handleUserClose}
                   onClick={handleUserClose}
                 >
-                  <MenuItem onClick={handleUserClose}>
+                  <MenuItem onClick={() => navigate(`/userInfo`)}>
                     <ListItemIcon>
                       <TfiSettings />
                     </ListItemIcon>
