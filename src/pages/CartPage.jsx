@@ -23,14 +23,13 @@ const Cart = () => {
         const response = await publicRequest.get('/v1/users/', {
           headers: { Authorization: `Bearer ${accessToken}` }
         }).then(res => res.data)
-        debugger
         setUser(response.data)
       } catch (error) {
         console.log(error)
       }
     }
 
-    // getUser()
+    getUser()
   }, [])
 
   return (
