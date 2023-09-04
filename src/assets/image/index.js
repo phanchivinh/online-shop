@@ -25,6 +25,8 @@ import noProducts from './no-products.png'
 import noProductFound from './no-product-found.png'
 import menBanner from './men-banner.png'
 import womenBanner from './women-banner.png'
+import paymentSuccess from './payment-success.png'
+import notFound from './404-error-page.png'
 
 export const images = {
   logo: logo
@@ -33,7 +35,9 @@ export const images = {
 export const illustrationImg = {
   emptyCart: emptyCartImg,
   emptyProductList: noProducts,
-  noProductFound: noProductFound
+  noProductFound: noProductFound,
+  paymentSuccess: paymentSuccess,
+  notFound: notFound,
 };
 
 export const sliderImages = [

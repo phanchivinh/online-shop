@@ -1,10 +1,10 @@
 import React from 'react'
+import { illustrationImg } from '../assets/image'
 
 const NotFound = () => {
   return (
-    <div>
-      <h2>404 - Page Not Found</h2>
-      <p>The page you are looking for does not exist. Oke Chua ?</p>
+    <div className='flex items-center justify-center'>
+      <img alt='' src={illustrationImg.notFound} />
     </div>
   )
 }

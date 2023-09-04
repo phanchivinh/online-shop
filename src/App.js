@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import Announcement from "./components/Announcement";
 import { useSelector } from "react-redux";
 import NotFound from "./pages/NotFound";
+import CartSuccess from "./components/CartSuccess";
 
 
 const Layout = () => {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/cart',
         element: <CartPage />
+      },
+      {
+        path: '/cart/success',
+        element: <CartSuccess />
       }
     ],
   },

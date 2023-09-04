@@ -45,7 +45,7 @@ const SaleProducts = () => {
       {/* product list */}
 
       <div className='flex justify-center items-center'>
-        <button className='flex mb-2 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg'>
+        <button className='flex my-4 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg'>
           Xem tất cả  SẢN PHẨM KHUYẾN MÃI
         </button>
       </div>
