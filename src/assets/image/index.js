@@ -1,6 +1,7 @@
 import home1 from './home1.png'
 import home2 from './home2.png'
 import home3 from './home3.png'
+import home4 from './home4.png'
 
 import item11 from './item1-1.jpg'
 import item12 from './item1-2.jpg'
@@ -43,7 +44,7 @@ export const illustrationImg = {
 export const sliderImages = [
   home1,
   home2,
-  home3
+  home4
 ]
 
 

@@ -54,30 +54,12 @@ const Navbar = () => {
     setCategoryTree(categoryTree)
   }, [])
 
-  const handleMenClick = (event) => {
-    setAnchorElMen(event.currentTarget);
-  };
-  const handleWomenClick = (event) => {
-    setAnchorElWomen(event.currentTarget);
-  };
   const handleUserClick = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const onSignOut = async (event) => {
     try {
-      // const accessToken = localStorage.getItem('accessToken');
-      // const response = await publicRequest('v1/auth/user/sign-out', {}, {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   }
-      // })
-      // debugger
-      // if (response.status === 200) {
-      //   dispatch(logout());
-      //   navigate("/")
-      // }
-
       dispatch(logout());
       navigate("/login")
     } catch (error) {
@@ -85,12 +67,6 @@ const Navbar = () => {
     }
   }
 
-  const handleMenClose = () => {
-    setAnchorElMen(null);
-  };
-  const handleWomenClose = () => {
-    setAnchorElWomen(null);
-  };
   const handleUserClose = () => {
     setAnchorElUser(null);
   };
@@ -115,66 +91,8 @@ const Navbar = () => {
             </span>
           </Link>
           {categoryTree && <NavigationList categoryTree={categoryTree} />}
-          {/* <ul className='hidden md:flex items-center'> */}
-          {/* <li className='group/item mx-2 relative text-black'>
-              <Button id="men-menu-button" aria-controls={openMen ? 'men-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openMen ? 'true' : undefined}
-                onClick={handleMenClick}
-              >
-                <p className='text-black font-bold text-xl flex items-center'><AiOutlineMenu className='mr-1' /> Danh mục sản phẩm</p>
-              </Button>
-              <Menu id='men-menu'
-                aria-labelledby="men-menu-button"
-                anchorEl={anchorElMen}
-                open={openMen}
-                onClose={handleMenClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                {
-                  categories.map(cat => <MenuItem onClick={(handleMenClick)}>{cat.category_alias_name}</MenuItem>)
-                }
-                <MenuItem onClick={handleMenClose}>Áo thun</MenuItem>
-                <MenuItem onClick={handleMenClose}>Áo sơ-mi</MenuItem>
-                <MenuItem onClick={handleMenClose}>Áo bóng đá</MenuItem>
-              </Menu>
-            </li> */}
-          {/* <li className='group/item mx-2 relative'>
-              <Button id="women-menu-button" aria-controls={openWomen ? 'women-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openWomen ? 'true' : undefined}
-                onClick={handleWomenClick}
-              >
-                <p className='text-black font-bold text-xl'>Nữ</p>
-              </Button>
-              <Menu id='women-menu'
-                aria-labelledby="women-menu-button"
-                anchorEl={anchorElWomen}
-                open={openWomen}
-                onClose={handleWomenClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                <MenuItem onClick={handleWomenClose}>Áo thun</MenuItem>
-                <MenuItem onClick={handleWomenClose}>Áo thun nữ</MenuItem>
-                <MenuItem onClick={handleWomenClose}>Váy</MenuItem>
-              </Menu>
-            </li> */}
 
-          <Link to='' className='font-bold text-blue-500 hover:opacity-70'>ABOUT US</Link>
+          <Link to='/AboutUs' className='font-bold text-blue-500 hover:opacity-70'>ABOUT US</Link>
 
 
         </div>
@@ -211,6 +129,12 @@ const Navbar = () => {
                       <TfiSettings />
                     </ListItemIcon>
                     Tài khoản
+                  </MenuItem>
+                  <MenuItem onClick={() => { }}>
+                    <ListItemIcon>
+                      <TfiSettings />
+                    </ListItemIcon>
+                    Đổi mật khẩu
                   </MenuItem>
                   <MenuItem onClick={(event) => onSignOut(event)}>
                     <ListItemIcon>

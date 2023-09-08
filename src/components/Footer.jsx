@@ -14,7 +14,7 @@ const Footer = () => {
           <div className=' sm:flex-1 lg:flex-none'>
             <h3 className='font-bold text-xl sm:text-2xl'>About us</h3>
             <ul className='mt-4'>
-              <li className='hover:text-blue-400 opacity-80 text-sm sm:text-base'><Link>Điều khoản</Link></li>
+              <li className='hover:text-blue-400 opacity-80 text-sm sm:text-base'><Link to={'/dieu-khoan'}>Điều khoản</Link></li>
               <li className='hover:text-blue-400 opacity-80 text-sm sm:text-base'><Link>Hướng dẫn mua hàng</Link></li>
               <li className='hover:text-blue-400 opacity-80 text-sm sm:text-base'><Link>Chính sách bảo mật</Link></li>
               <li className='hover:text-blue-400 opacity-80 text-sm sm:text-base'><Link>Chính sách đổi trả</Link></li>

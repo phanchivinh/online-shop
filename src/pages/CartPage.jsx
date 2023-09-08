@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react'
 import { images, products } from '../assets/image'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import StripeCheckout from 'react-stripe-checkout'
 import { publicRequest } from '../requestMethod'
 import EmptyCart from '../components/EmptyCart'
 import { useNavigate } from 'react-router-dom'
+import { clearCart } from '../redux/cartRedux'
 
 const Cart = () => {
   const [user, setUser] = useState({})
   const cart = useSelector(state => state.cart)
   const accessToken = useSelector(state => state.auth.accessToken)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     //Clear cart here
+    const response = await publicRequest.post('/v1/carts/reset-cart-user', {}, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }).then(res => res.data)
+    dispatch(clearCart())
     navigate("/cart/success")
   }
 

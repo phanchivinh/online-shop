@@ -5,6 +5,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { useSelector } from 'react-redux';
 import { publicRequest } from '../requestMethod';
 import { apiUserOrders } from '../model/data/mockData';
+import { formatVND } from '../helpers';
 
 
 const UserOrders = () => {
@@ -15,15 +16,10 @@ const UserOrders = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await publicRequest.post('/v1/management/orders/', {
-          order_status: 0,  //get all
-          order_id: null    //get all
-        }, {
+        const response = await publicRequest.get('/v1/orders/user', {
           headers: { Authorization: `Bearer ${accessToken}` }
         }).then(res => res.data)
         // const response = apiUserOrders
-        console.log(response.data.orders)
-        debugger
         setOrders(response.data.orders)
       } catch (error) {
         console.log(error)
@@ -32,41 +28,6 @@ const UserOrders = () => {
     getOrders()
   }, [accessToken])
 
-  const columns = [
-    { field: "order_id", headerName: "Mã đơn hàng", width: 100 },
-    { field: "create_date", headerName: "Ngày đặt", width: 150 },
-    {
-      field: "order_total_price",
-      headerName: "Thành tiền",
-      width: 150
-    },
-    {
-      field: "order_status_name",
-      headerName: "Trạng thái thanh toán",
-      width: 150,
-      renderCell: (params) => {
-        <>
-          <Button type={params.row.order_status_name} />
-        </>
-      }
-    },
-    {
-      field: "payment_type_name",
-      headerName: "Hình thức thanh toán",
-      width: 150,
-    },
-  ];
-
-  const Button = ({ type }) => {
-    return <button className={`py-1 px-2 rounded-lg cursor-auto
-    ${type === 'Hoàn thành' && 'bg-[#e5faf2] text-[#3bb077]'}
-    ${type === 'Đã thanh toán' && 'bg-[#e5faf2] text-[#3bb077]'}
-    ${type === 'Đã hủy' && 'bg-[#fff0f1] text-[#d95087]'}
-    ${type === 'Đang giao' && 'bg-[#ebf1fe] text-[#2a7ade]'}
-    ${type === 'Chờ thanh toán' && 'bg-[#ebf1fe] text-[#2a7ade]'}
-    ${type === 'Vận chuyển' && 'bg-[#ebf1fe] text-[#2a7ade]'}
-    `}>{type}</button>
-  }
 
   return (
     <div className=''>
@@ -79,16 +40,39 @@ const UserOrders = () => {
           </div>
         )
           :
+          <div className='border border-blue-600  rounded-md'>
+            {
+              orders.map((order, index) => (
+                <div className='flex border border-b-blue-600 p-2 hover:bg-gray-300'>
+                  <div className='flex-[2]'>
+                    <div>
+                      <label className='mr-2 font-bold'>ID:</label>
+                      <span>{order.order_id}</span>
+                    </div>
+                    <div>
+                      <label className='mr-2 font-bold'>Địa chỉ nhận hàng:</label>
+                      <span>{order.user_address}</span>
+                    </div>
+                    <div>
+                      <label className='mr-2 font-bold'>Ngày đặt hàng:</label>
+                      <span>{order.order_date}</span>
+                    </div>
+                    <div>
+                      <label className='mr-2 font-bold'>Hình thức thanh toán:</label>
+                      <span>{order.payment_type}</span>
+                    </div>
+                  </div>
+                  <div className='flex-1 flex justify-center items-center'>
+                    <span>{formatVND(order.order_total_price)}</span>
+                  </div>
+                  <div className='flex-1 flex justify-center items-center'>
+                    <span>{order.order_status}</span>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
 
-          <DataGrid
-            rows={orders}
-            autoHeight
-            // disableSelectionOnClick
-            columns={columns}
-            getRowId={(row) => row.order_id}
-            autoPageSize
-          // checkboxSelection
-          />
       }
     </div>
   )

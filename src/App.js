@@ -14,6 +14,9 @@ import Announcement from "./components/Announcement";
 import { useSelector } from "react-redux";
 import NotFound from "./pages/NotFound";
 import CartSuccess from "./components/CartSuccess";
+import AboutUs from "./pages/AboutUs";
+import Rules from "./pages/Rules";
+import BuyGuide from "./pages/BuyGuide";
 
 
 const Layout = () => {
@@ -63,7 +66,31 @@ const router = createBrowserRouter([
       {
         path: '/cart/success',
         element: <CartSuccess />
-      }
+      },
+      {
+        path: '/AboutUs',
+        element: <AboutUs />
+      },
+      {
+        path: '/dieu-khoan',
+        element: <Rules />
+      },
+      {
+        path: '/huong-dan-mua-hang',
+        element: <BuyGuide />
+      },
+      {
+        path: '/chinh-sach-bao-mat',
+        element: <BuyGuide />
+      },
+      {
+        path: '/chinh-sach-doi-tra',
+        element: <BuyGuide />
+      },
+      {
+        path: '/chinh-sach-van-chuyen',
+        element: <BuyGuide />
+      },
     ],
   },
   {
