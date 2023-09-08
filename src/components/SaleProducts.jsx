@@ -4,18 +4,20 @@ import { productData } from '../model/data/mockData';
 import CountdownBox from './CountdownBox';
 import ProductListSkeleton from './ProductListSkeleton';
 import { publicRequest } from '../requestMethod';
+import { useNavigate } from 'react-router-dom';
 
 
 const SaleProducts = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate()
   // Fetch data:
   useEffect(() => {
     // Get products:
     const getProducts = async () => {
       try {
-        const res = await publicRequest('/v1/products/sales')
-        setProducts(res.data.data.products)
+        const res = await publicRequest.get('/v1/products/sales').then(res => res.data)
+        setProducts(res.data.products.slice(0, 10))
         setIsLoading(false)
       } catch (error) {
         console.error(error)
@@ -45,7 +47,7 @@ const SaleProducts = () => {
       {/* product list */}
 
       <div className='flex justify-center items-center'>
-        <button className='flex my-4 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg'>
+        <button className='flex my-4 items-center text-sm bg-yellow-400 hover:bg-yellow-300 p-2 rounded-lg' onClick={() => navigate("/sale-products")}>
           Xem tất cả  SẢN PHẨM KHUYẾN MÃI
         </button>
       </div>

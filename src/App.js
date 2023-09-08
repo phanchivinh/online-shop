@@ -17,6 +17,7 @@ import CartSuccess from "./components/CartSuccess";
 import AboutUs from "./pages/AboutUs";
 import Rules from "./pages/Rules";
 import BuyGuide from "./pages/BuyGuide";
+import SaleProductPage from "./pages/SaleProductPage";
 
 
 const Layout = () => {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: '/chinh-sach-van-chuyen',
         element: <BuyGuide />
+      },
+      {
+        path: '/sale-products',
+        element: <SaleProductPage />
       },
     ],
   },
