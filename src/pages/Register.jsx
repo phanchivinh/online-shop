@@ -55,6 +55,7 @@ const Register = () => {
 
   const handleSignIn = async ({ successEmail, successPassword }) => {
     try {
+      localStorage.setItem('email', successEmail)
       const response = await publicRequest.post('/v1/auth/user/sign-in', {
         successEmail,
         successPassword

@@ -38,6 +38,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartTotalItems = useSelector(state => state.cart.totalQuantity)
+  const accessToken = useSelector(state => state.auth.accessToken)
   const [sidebar, setSidebar] = useState(false)
   // const location = useLocation()
   const [anchorElMen, setAnchorElMen] = React.useState(null);
@@ -61,6 +62,9 @@ const Navbar = () => {
   const onSignOut = async (event) => {
     try {
       dispatch(logout());
+      const response = await publicRequest.post('/v1/auth/user/sign-out', {}, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
       navigate("/login")
     } catch (error) {
       console.error(error)

@@ -26,6 +26,7 @@ const Product = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const id = location.pathname.split("/")[2]
+  const userEmail = localStorage.getItem('email')
 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   const accessToken = useSelector(state => state.auth.accessToken)
@@ -82,6 +83,7 @@ const Product = () => {
       setIsAddSuccess(true)
       if (isAuthenticated) {
         const response = await publicRequest.post('v1/carts/add-product', {
+          email: userEmail,
           variant_product_id: selectedProduct.variant_product_id,
           product_quantity: quantity
         }, {

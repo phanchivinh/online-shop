@@ -15,6 +15,7 @@ const Login = () => {
 
   const onSignIn = async (e) => {
     e.preventDefault();
+    localStorage.setItem('email', email)
     try {
       const response = await publicRequest.post('/v1/auth/user/sign-in', {
         email,

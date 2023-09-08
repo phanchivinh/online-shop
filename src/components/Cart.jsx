@@ -13,6 +13,8 @@ const Cart = (props, cartRef) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   const accessToken = useSelector(state => state.auth.accessToken)
   const dispatch = useDispatch()
+  const userEmail = localStorage.getItem("email")
+
 
   useImperativeHandle(cartRef, () => ({
     setOpenCart
@@ -21,7 +23,8 @@ const Cart = (props, cartRef) => {
   const handleRemove = async (product) => {
     dispatch(removeProduct(product))
     if (isAuthenticated) {
-      const response = await publicRequest.post('v1/carts/add-product', {
+      const response = await publicRequest.post('/v1/carts/remove-cart-product', {
+        email: userEmail,
         variant_product_id: product.variant_product_id,
       }, {
         headers: { Authorization: `Bearer ${accessToken}` }
@@ -32,7 +35,9 @@ const Cart = (props, cartRef) => {
   useEffect(() => {
     const getUserCart = async () => {
       try {
-        const response = await publicRequest.get('/v1/carts/user', {
+        const response = await publicRequest.post('/v1/carts/user', {
+          email: userEmail
+        }, {
           headers: { Authorization: `Bearer ${accessToken}` }
         }).then(res => res.data)
         debugger
